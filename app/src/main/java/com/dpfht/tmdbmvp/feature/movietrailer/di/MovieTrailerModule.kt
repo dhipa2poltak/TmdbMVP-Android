@@ -1,5 +1,6 @@
 package com.dpfht.tmdbmvp.feature.movietrailer.di
 
+import com.dpfht.tmdbmvp.di.ActivityScope
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerActivity
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerModel
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerPresenter
@@ -14,19 +15,19 @@ import dagger.Provides
 class MovieTrailerModule(private val movieTrailerActivity: MovieTrailerActivity) {
 
   @Provides
-  @MovieTrailerScope
+  @ActivityScope
   fun provideMovieTrailerView(): MovieTrailerView {
     return movieTrailerActivity
   }
 
   @Provides
-  @MovieTrailerScope
+  @ActivityScope
   fun provideMovieTrailerModel(appRepository: AppRepository): MovieTrailerModel {
     return MovieTrailerModelImpl(appRepository)
   }
 
   @Provides
-  @MovieTrailerScope
+  @ActivityScope
   fun provideMovieTrailerPresenter(
     movieTrailerView: MovieTrailerView,
     movieTrailerModel: MovieTrailerModel

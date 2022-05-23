@@ -3,6 +3,7 @@ package com.dpfht.tmdbmvp.feature.genre.di
 import android.content.Context
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
+import com.dpfht.tmdbmvp.di.FragmentScope
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenrePresenter
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreView
@@ -18,32 +19,32 @@ import dagger.Provides
 class GenreModule(private val genreFragment: GenreFragment) {
 
   @Provides
-  @GenreScope
   @ActivityContext
+  @FragmentScope
   fun getContext(): Context {
     return genreFragment.requireActivity()
   }
 
   @Provides
-  @GenreScope
+  @FragmentScope
   fun provideGenreView(): GenreView {
     return genreFragment
   }
 
   @Provides
-  @GenreScope
+  @FragmentScope
   fun provideGenreModel(appRepository: AppRepository): GenreModel {
     return GenreModelImpl(appRepository)
   }
 
   @Provides
-  @GenreScope
+  @FragmentScope
   fun provideGenrePresenter(genreView: GenreView, genreModel: GenreModel): GenrePresenter {
     return GenrePresenterImpl(genreView, genreModel)
   }
 
   @Provides
-  @GenreScope
+  @FragmentScope
   fun provideGenreAdapter(genrePresenter: GenrePresenter): GenreAdapter {
     return GenreAdapter(genrePresenter.genres)
   }

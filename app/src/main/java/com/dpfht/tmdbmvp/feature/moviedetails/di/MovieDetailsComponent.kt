@@ -6,7 +6,6 @@ import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsFragment
 import dagger.Component
 
 @Component(dependencies = [ApplicationComponent::class], modules = [MovieDetailsModule::class])
-@MovieDetailsScope
 @FragmentScope
 interface MovieDetailsComponent {
 

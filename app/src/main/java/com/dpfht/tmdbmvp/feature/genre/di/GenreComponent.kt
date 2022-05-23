@@ -6,7 +6,6 @@ import com.dpfht.tmdbmvp.feature.genre.GenreFragment
 import dagger.Component
 
 @Component(dependencies = [ApplicationComponent::class], modules = [GenreModule::class])
-@GenreScope
 @FragmentScope
 interface GenreComponent {
 

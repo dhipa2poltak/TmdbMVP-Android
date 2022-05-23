@@ -6,7 +6,6 @@ import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsFragment
 import dagger.Component
 
 @Component(dependencies = [ApplicationComponent::class], modules = [MovieReviewsModule::class])
-@MovieReviewsScope
 @FragmentScope
 interface MovieReviewsComponent {
 

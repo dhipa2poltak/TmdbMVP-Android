@@ -3,6 +3,7 @@ package com.dpfht.tmdbmvp.feature.moviedetails.di
 import android.content.Context
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
+import com.dpfht.tmdbmvp.di.FragmentScope
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsPresenter
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsView
@@ -17,26 +18,26 @@ import dagger.Provides
 class MovieDetailsModule(private val movieDetailsFragment: MovieDetailsFragment) {
 
   @Provides
-  @MovieDetailsScope
+  @FragmentScope
   @ActivityContext
   fun getContext(): Context {
     return movieDetailsFragment.requireActivity()
   }
 
   @Provides
-  @MovieDetailsScope
+  @FragmentScope
   fun provideMovieDetailsView(): MovieDetailsView {
     return movieDetailsFragment
   }
 
   @Provides
-  @MovieDetailsScope
+  @FragmentScope
   fun provideMovieDetailsModel(appRepository: AppRepository): MovieDetailsModel {
     return MovieDetailsModelImpl(appRepository)
   }
 
   @Provides
-  @MovieDetailsScope
+  @FragmentScope
   fun provideMovieDetailsPresenter(
     movieDetailsView: MovieDetailsView,
     movieDetailsModel: MovieDetailsModel

@@ -3,6 +3,7 @@ package com.dpfht.tmdbmvp.feature.moviereviews.di
 import android.content.Context
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
+import com.dpfht.tmdbmvp.di.FragmentScope
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsPresenter
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsView
@@ -18,26 +19,26 @@ import dagger.Provides
 class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment) {
 
   @Provides
-  @MovieReviewsScope
+  @FragmentScope
   @ActivityContext
   fun getContext(): Context {
     return movieReviewsFragment.requireActivity()
   }
 
   @Provides
-  @MovieReviewsScope
+  @FragmentScope
   fun provideMovieReviewsView(): MovieReviewsView {
     return movieReviewsFragment
   }
 
   @Provides
-  @MovieReviewsScope
+  @FragmentScope
   fun provideMovieReviewsModel(appRepository: AppRepository): MovieReviewsModel {
     return MovieReviewsModelImpl(appRepository)
   }
 
   @Provides
-  @MovieReviewsScope
+  @FragmentScope
   fun provideMovieReviewsPresenter(
     movieReviewsView: MovieReviewsView,
     movieReviewsModel: MovieReviewsModel
@@ -46,7 +47,7 @@ class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment)
   }
 
   @Provides
-  @MovieReviewsScope
+  @FragmentScope
   fun provideMovieReviewsAdapter(movieReviewsPresenter: MovieReviewsPresenter): MovieReviewsAdapter {
     return MovieReviewsAdapter(movieReviewsPresenter.reviews)
   }

@@ -6,7 +6,6 @@ import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreFragment
 import dagger.Component
 
 @Component(dependencies = [ApplicationComponent::class], modules = [MoviesByGenreModule::class])
-@MoviesByGenreScope
 @FragmentScope
 interface MoviesByGenreComponent {
 
