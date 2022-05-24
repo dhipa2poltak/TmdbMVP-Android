@@ -2,17 +2,18 @@ package com.dpfht.tmdbmvp.feature.movietrailer
 
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerModel
 import com.dpfht.tmdbmvp.model.Trailer
-import com.dpfht.tmdbmvp.model.response.TrailerResponse
 import com.dpfht.tmdbmvp.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 
 class MovieTrailerModelImpl(
   val appRepository: AppRepository
 ): MovieTrailerModel {
+
+  private val compositeDisposable = CompositeDisposable()
 
   override fun getMovieTrailer(
     movieId: Int,
@@ -20,8 +21,10 @@ class MovieTrailerModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieTrailer(movieId).enqueue(object : Callback<TrailerResponse?> {
-      override fun onResponse(call: Call<TrailerResponse?>, response: Response<TrailerResponse?>) {
+    val subs = appRepository.getMovieTrailer(movieId)
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe({ response ->
         if (response.isSuccessful) {
           response.body()?.results?.let {
             onSuccess(it)
@@ -31,19 +34,18 @@ class MovieTrailerModelImpl(
 
           onError(errorResponse.statusMessage ?: "")
         }
-      }
-
-      override fun onFailure(call: Call<TrailerResponse?>, t: Throwable) {
-        if (call.isCanceled) {
-          onCancel()
+      }, { t ->
+        if (t is IOException) {
+          onError("error in connection")
         } else {
-          if (t is IOException) {
-            onError("error in connection")
-          } else {
-            onError("error in conversion")
-          }
+          onError("error in conversion")
         }
-      }
-    })
+      })
+
+    compositeDisposable.add(subs)
+  }
+
+  override fun onDestroy() {
+    compositeDisposable.dispose()
   }
 }

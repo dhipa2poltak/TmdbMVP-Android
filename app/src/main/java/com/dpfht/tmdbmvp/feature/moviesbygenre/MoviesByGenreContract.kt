@@ -28,5 +28,7 @@ interface MoviesByGenreContract {
       onError: (String) -> Unit,
       onCancel: () -> Unit
     )
+
+    fun onDestroy()
   }
 }

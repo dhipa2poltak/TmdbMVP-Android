@@ -64,5 +64,7 @@ class MoviesByGenrePresenterImpl(
 
   override fun onDestroy() {
     this.moviesByGenreView = null
+    this.moviesByGenreModel?.onDestroy()
+    this.moviesByGenreModel = null
   }
 }

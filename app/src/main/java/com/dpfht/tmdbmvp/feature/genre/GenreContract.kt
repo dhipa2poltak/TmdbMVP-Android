@@ -24,5 +24,7 @@ interface GenreContract {
       onError: (String) -> Unit,
       onCancel: () -> Unit
     )
+
+    fun onDestroy()
   }
 }

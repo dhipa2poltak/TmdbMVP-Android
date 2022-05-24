@@ -46,5 +46,7 @@ class GenrePresenterImpl(
 
   override fun onDestroy() {
     this.genreView = null
+    this.genreModel?.onDestroy()
+    this.genreModel = null
   }
 }

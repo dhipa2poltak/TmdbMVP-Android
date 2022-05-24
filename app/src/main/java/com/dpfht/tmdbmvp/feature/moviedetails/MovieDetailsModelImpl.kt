@@ -4,14 +4,16 @@ import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsM
 import com.dpfht.tmdbmvp.model.response.MovieDetailsResponse
 import com.dpfht.tmdbmvp.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 
 class MovieDetailsModelImpl(
   val appRepository: AppRepository
 ): MovieDetailsModel {
+
+  private val compositeDisposable = CompositeDisposable()
 
   override fun getMovieDetails(
     movieId: Int,
@@ -19,11 +21,10 @@ class MovieDetailsModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieDetail(movieId).enqueue(object : Callback<MovieDetailsResponse?> {
-      override fun onResponse(
-        call: Call<MovieDetailsResponse?>,
-        response: Response<MovieDetailsResponse?>
-      ) {
+    val subs = appRepository.getMovieDetail(movieId)
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe({ response ->
         if (response.isSuccessful) {
           response.body()?.let {
             onSuccess(it)
@@ -33,19 +34,18 @@ class MovieDetailsModelImpl(
 
           onError(errorResponse.statusMessage ?: "")
         }
-      }
-
-      override fun onFailure(call: Call<MovieDetailsResponse?>, t: Throwable) {
-        if (call.isCanceled) {
-          onCancel()
+      }, { t ->
+        if (t is IOException) {
+          onError("error in connection")
         } else {
-          if (t is IOException) {
-            onError("error in connection")
-          } else {
-            onError("error in conversion")
-          }
+          onError("error in conversion")
         }
-      }
-    })
+      })
+
+    compositeDisposable.add(subs)
+  }
+
+  override fun onDestroy() {
+    compositeDisposable.dispose()
   }
 }

@@ -56,5 +56,7 @@ class MovieReviewsPresenterImpl(
 
   override fun onDestroy() {
     this.movieReviewsView = null
+    this.movieReviewsModel?.onDestroy()
+    this.movieReviewsModel = null
   }
 }

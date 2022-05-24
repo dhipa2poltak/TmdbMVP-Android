@@ -2,17 +2,18 @@ package com.dpfht.tmdbmvp.feature.moviereviews
 
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
 import com.dpfht.tmdbmvp.model.Review
-import com.dpfht.tmdbmvp.model.response.ReviewResponse
 import com.dpfht.tmdbmvp.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 
 class MovieReviewsModelImpl(
   val appRepository: AppRepository
 ): MovieReviewsModel {
+
+  private val compositeDisposable = CompositeDisposable()
 
   override fun getMovieReviews(
     movieId: Int,
@@ -21,8 +22,10 @@ class MovieReviewsModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieReviews(movieId, page).enqueue(object : Callback<ReviewResponse?> {
-      override fun onResponse(call: Call<ReviewResponse?>, response: Response<ReviewResponse?>) {
+    val subs = appRepository.getMovieReviews(movieId, page)
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe({ response ->
         if (response.isSuccessful) {
           response.body()?.let { resp ->
             resp.results?.let {
@@ -34,19 +37,18 @@ class MovieReviewsModelImpl(
 
           onError(errorResponse.statusMessage ?: "")
         }
-      }
-
-      override fun onFailure(call: Call<ReviewResponse?>, t: Throwable) {
-        if (call.isCanceled) {
-          onCancel()
+      }, { t ->
+        if (t is IOException) {
+          onError("error in connection")
         } else {
-          if (t is IOException) {
-            onError("error in connection")
-          } else {
-            onError("error in conversion")
-          }
+          onError("error in conversion")
         }
-      }
-    })
+      })
+
+    compositeDisposable.add(subs)
+  }
+
+  override fun onDestroy() {
+    compositeDisposable.dispose()
   }
 }
