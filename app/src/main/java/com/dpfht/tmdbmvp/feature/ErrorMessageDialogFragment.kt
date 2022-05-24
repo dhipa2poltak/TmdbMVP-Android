@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dpfht.tmdbmvp.databinding.FragmentErrorMessageDialogListDialogBinding
+import com.dpfht.tmdbmvp.databinding.FragmentErrorMessageDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ErrorMessageDialogFragment : BottomSheetDialogFragment() {
 
-  private lateinit var binding: FragmentErrorMessageDialogListDialogBinding
+  private lateinit var binding: FragmentErrorMessageDialogBinding
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    binding = FragmentErrorMessageDialogListDialogBinding.inflate(inflater, container, false)
+    binding = FragmentErrorMessageDialogBinding.inflate(inflater, container, false)
 
     return binding.root
   }
