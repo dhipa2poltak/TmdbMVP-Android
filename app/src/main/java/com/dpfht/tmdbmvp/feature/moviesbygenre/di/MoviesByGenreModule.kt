@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre.di
 
 import android.content.Context
+import com.dpfht.tmdbmvp.data.model.Movie
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope
@@ -39,16 +40,23 @@ class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragme
 
   @Provides
   @FragmentScope
-  fun provideMoviesByGenrePresenter(
-    moviesByGenreView: MoviesByGenreView,
-    moviesByGenreModel: MoviesByGenreModel
-  ): MoviesByGenrePresenter {
-    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel)
+  fun provideMovies(): ArrayList<Movie> {
+    return arrayListOf()
   }
 
   @Provides
   @FragmentScope
-  fun provideMoviesByGenreAdapter(moviesByGenrePresenter: MoviesByGenrePresenter): MoviesByGenreAdapter {
-    return MoviesByGenreAdapter(moviesByGenrePresenter.movies)
+  fun provideMoviesByGenrePresenter(
+    moviesByGenreView: MoviesByGenreView,
+    moviesByGenreModel: MoviesByGenreModel,
+    movies: ArrayList<Movie>
+  ): MoviesByGenrePresenter {
+    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel, movies)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMoviesByGenreAdapter(movies: ArrayList<Movie>): MoviesByGenreAdapter {
+    return MoviesByGenreAdapter(movies)
   }
 }

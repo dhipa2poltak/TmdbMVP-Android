@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.moviereviews.di
 
 import android.content.Context
+import com.dpfht.tmdbmvp.data.model.Review
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope
@@ -39,16 +40,23 @@ class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment)
 
   @Provides
   @FragmentScope
-  fun provideMovieReviewsPresenter(
-    movieReviewsView: MovieReviewsView,
-    movieReviewsModel: MovieReviewsModel
-  ): MovieReviewsPresenter {
-    return MovieReviewsPresenterImpl(movieReviewsView, movieReviewsModel)
+  fun provideReviews(): ArrayList<Review> {
+    return arrayListOf()
   }
 
   @Provides
   @FragmentScope
-  fun provideMovieReviewsAdapter(movieReviewsPresenter: MovieReviewsPresenter): MovieReviewsAdapter {
-    return MovieReviewsAdapter(movieReviewsPresenter.reviews)
+  fun provideMovieReviewsPresenter(
+    movieReviewsView: MovieReviewsView,
+    movieReviewsModel: MovieReviewsModel,
+    reviews: ArrayList<Review>
+  ): MovieReviewsPresenter {
+    return MovieReviewsPresenterImpl(movieReviewsView, movieReviewsModel, reviews)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMovieReviewsAdapter(reviews: ArrayList<Review>): MovieReviewsAdapter {
+    return MovieReviewsAdapter(reviews)
   }
 }

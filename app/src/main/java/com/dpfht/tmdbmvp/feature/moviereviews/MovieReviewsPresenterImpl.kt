@@ -7,14 +7,17 @@ import com.dpfht.tmdbmvp.data.model.Review
 
 class MovieReviewsPresenterImpl(
   private var movieReviewsView: MovieReviewsView? = null,
-  private var movieReviewsModel: MovieReviewsModel? = null
+  private var movieReviewsModel: MovieReviewsModel? = null,
+  private val reviews: ArrayList<Review>
 ): MovieReviewsPresenter {
 
-  override var isLoadingData = false
-  override val reviews = ArrayList<Review>()
+  private var _isLoadingData = false
+  private var movieId = -1
+  private var page = 0
 
-  var movieId = -1
-  var page = 0
+  override fun isLoadingData() = _isLoadingData
+
+  override fun isEmptyReviews() = reviews.isEmpty()
 
   override fun setMovieIdValue(movieId: Int) {
     this.movieId = movieId
@@ -22,7 +25,7 @@ class MovieReviewsPresenterImpl(
 
   override fun getMovieReviews() {
     movieReviewsView?.showLoadingDialog()
-    isLoadingData = true
+    _isLoadingData = true
     movieReviewsModel?.getMovieReviews(
       movieId, page + 1, this::onSuccess, this::onError, this::onCancel
     )
@@ -39,18 +42,18 @@ class MovieReviewsPresenterImpl(
     }
 
     movieReviewsView?.hideLoadingDialog()
-    isLoadingData = false
+    _isLoadingData = false
   }
 
   fun onError(message: String) {
     movieReviewsView?.hideLoadingDialog()
-    isLoadingData = false
+    _isLoadingData = false
     movieReviewsView?.showErrorMessage(message)
   }
 
   fun onCancel() {
     movieReviewsView?.hideLoadingDialog()
-    isLoadingData = false
+    _isLoadingData = false
     movieReviewsView?.showCanceledMessage()
   }
 

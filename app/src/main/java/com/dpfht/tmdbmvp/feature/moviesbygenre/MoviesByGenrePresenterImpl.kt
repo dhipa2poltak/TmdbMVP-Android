@@ -8,15 +8,17 @@ import com.dpfht.tmdbmvp.data.model.Movie
 
 class MoviesByGenrePresenterImpl(
   private var moviesByGenreView: MoviesByGenreView? = null,
-  private var moviesByGenreModel: MoviesByGenreModel? = null
+  private var moviesByGenreModel: MoviesByGenreModel? = null,
+  private val movies: ArrayList<Movie>
 ): MoviesByGenrePresenter {
 
-  override val movies = ArrayList<Movie>()
-
   private var genreId = -1
-  var page = 0
+  private var page = 0
+  private var _isLoadingData = false
 
-  override var isLoadingData = false
+  override fun isLoadingData() = _isLoadingData
+
+  override fun isEmptyMovies() = movies.isEmpty()
 
   override fun setGenreIdValue(genreId: Int) {
     this.genreId = genreId
@@ -24,7 +26,7 @@ class MoviesByGenrePresenterImpl(
 
   override fun getMoviesByGenre() {
     moviesByGenreView?.showLoadingDialog()
-    isLoadingData = true
+    _isLoadingData = true
     moviesByGenreModel?.getMoviesByGenre(
       genreId, page + 1, this::onSuccess, this::onError, this::onCancel
     )
@@ -41,18 +43,18 @@ class MoviesByGenrePresenterImpl(
     }
 
     moviesByGenreView?.hideLoadingDialog()
-    isLoadingData = false
+    _isLoadingData = false
   }
 
   fun onError(message: String) {
     moviesByGenreView?.hideLoadingDialog()
-    isLoadingData = false
+    _isLoadingData = false
     moviesByGenreView?.showErrorMessage(message)
   }
 
   fun onCancel() {
     moviesByGenreView?.hideLoadingDialog()
-    isLoadingData = false
+    _isLoadingData = false
     moviesByGenreView?.showCanceledMessage()
   }
 

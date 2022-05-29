@@ -7,7 +7,7 @@ import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 
 class GenreModelImpl(
-  val appRepository: AppRepository
+  private val appRepository: AppRepository
 ): GenreModel {
 
   override fun getMovieGenre(

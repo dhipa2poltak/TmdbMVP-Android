@@ -7,7 +7,7 @@ import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerModel
 
 class MovieTrailerModelImpl(
-  val appRepository: AppRepository
+  private val appRepository: AppRepository
 ): MovieTrailerModel {
 
   override fun getMovieTrailer(

@@ -8,10 +8,11 @@ import com.dpfht.tmdbmvp.data.model.Genre
 
 class GenrePresenterImpl(
   private var genreView: GenreView? = null,
-  private var genreModel: GenreModel? = null
+  private var genreModel: GenreModel? = null,
+  private val genres: ArrayList<Genre>
 ): GenrePresenter {
 
-  override val genres = ArrayList<Genre>()
+  override fun isEmptyGenre() = genres.isEmpty()
 
   override fun getMovieGenre() {
     genreView?.showLoadingDialog()

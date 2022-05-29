@@ -6,7 +6,7 @@ import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 
 class MovieDetailsModelImpl(
-  val appRepository: AppRepository
+  private val appRepository: AppRepository
 ): MovieDetailsModel {
 
   override fun getMovieDetails(

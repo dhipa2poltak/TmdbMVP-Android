@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.genre.di
 
 import android.content.Context
+import com.dpfht.tmdbmvp.data.model.Genre
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope
@@ -39,13 +40,23 @@ class GenreModule(private val genreFragment: GenreFragment) {
 
   @Provides
   @FragmentScope
-  fun provideGenrePresenter(genreView: GenreView, genreModel: GenreModel): GenrePresenter {
-    return GenrePresenterImpl(genreView, genreModel)
+  fun provideGenres(): ArrayList<Genre> {
+    return arrayListOf()
   }
 
   @Provides
   @FragmentScope
-  fun provideGenreAdapter(genrePresenter: GenrePresenter): GenreAdapter {
-    return GenreAdapter(genrePresenter.genres)
+  fun provideGenrePresenter(
+    genreView: GenreView,
+    genreModel: GenreModel,
+    genres: ArrayList<Genre>
+  ): GenrePresenter {
+    return GenrePresenterImpl(genreView, genreModel, genres)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideGenreAdapter(genres: ArrayList<Genre>): GenreAdapter {
+    return GenreAdapter(genres)
   }
 }

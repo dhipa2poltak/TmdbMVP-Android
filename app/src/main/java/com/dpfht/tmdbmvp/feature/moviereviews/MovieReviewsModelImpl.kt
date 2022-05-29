@@ -7,7 +7,7 @@ import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
 
 class MovieReviewsModelImpl(
-  val appRepository: AppRepository
+  private val appRepository: AppRepository
 ): MovieReviewsModel {
 
   override fun getMovieReviews(
