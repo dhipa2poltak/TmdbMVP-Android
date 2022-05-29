@@ -1,14 +1,10 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre
 
-import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreModel
+import com.dpfht.tmdbmvp.data.api.CallbackWrapper
 import com.dpfht.tmdbmvp.data.model.Movie
 import com.dpfht.tmdbmvp.data.model.response.DiscoverMovieByGenreResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
-import com.dpfht.tmdbmvp.util.ErrorUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
+import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreModel
 
 class MoviesByGenreModelImpl(
   val appRepository: AppRepository
@@ -21,34 +17,19 @@ class MoviesByGenreModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMoviesByGenre(genreId.toString(), page).enqueue(object : Callback<DiscoverMovieByGenreResponse?> {
-      override fun onResponse(
-        call: Call<DiscoverMovieByGenreResponse?>,
-        response: Response<DiscoverMovieByGenreResponse?>
-      ) {
-        if (response.isSuccessful) {
-          response.body()?.let { resp ->
-            resp.results?.let {
-              onSuccess(it, resp.page)
-            }
-          }
-        } else {
-          val errorResponse = ErrorUtil.parseApiError(response)
-
-          onError(errorResponse.statusMessage ?: "")
+    appRepository.getMoviesByGenre(genreId.toString(), page).enqueue(object : CallbackWrapper<DiscoverMovieByGenreResponse?>() {
+      override fun onSuccessCall(t: DiscoverMovieByGenreResponse?) {
+        t?.results?.let {
+          onSuccess(it, t.page)
         }
       }
 
-      override fun onFailure(call: Call<DiscoverMovieByGenreResponse?>, t: Throwable) {
-        if (call.isCanceled) {
-          onCancel()
-        } else {
-          if (t is IOException) {
-            onError("error in connection")
-          } else {
-            onError("error in conversion")
-          }
-        }
+      override fun onErrorCall(str: String) {
+        onError(str)
+      }
+
+      override fun onCancelCall() {
+        onCancel()
       }
     })
   }

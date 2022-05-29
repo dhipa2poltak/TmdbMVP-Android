@@ -1,13 +1,9 @@
 package com.dpfht.tmdbmvp.feature.moviedetails
 
-import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
+import com.dpfht.tmdbmvp.data.api.CallbackWrapper
 import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
-import com.dpfht.tmdbmvp.util.ErrorUtil
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
+import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 
 class MovieDetailsModelImpl(
   val appRepository: AppRepository
@@ -19,32 +15,19 @@ class MovieDetailsModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieDetail(movieId).enqueue(object : Callback<MovieDetailsResponse?> {
-      override fun onResponse(
-        call: Call<MovieDetailsResponse?>,
-        response: Response<MovieDetailsResponse?>
-      ) {
-        if (response.isSuccessful) {
-          response.body()?.let {
-            onSuccess(it)
-          }
-        } else {
-          val errorResponse = ErrorUtil.parseApiError(response)
-
-          onError(errorResponse.statusMessage ?: "")
+    appRepository.getMovieDetail(movieId).enqueue(object : CallbackWrapper<MovieDetailsResponse?>() {
+      override fun onSuccessCall(t: MovieDetailsResponse?) {
+        t?.let {
+          onSuccess(it)
         }
       }
 
-      override fun onFailure(call: Call<MovieDetailsResponse?>, t: Throwable) {
-        if (call.isCanceled) {
-          onCancel()
-        } else {
-          if (t is IOException) {
-            onError("error in connection")
-          } else {
-            onError("error in conversion")
-          }
-        }
+      override fun onErrorCall(str: String) {
+        onError(str)
+      }
+
+      override fun onCancelCall() {
+        onCancel()
       }
     })
   }
