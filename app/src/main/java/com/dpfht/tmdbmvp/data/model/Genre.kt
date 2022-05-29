@@ -1,4 +1,4 @@
-package com.dpfht.tmdbmvp.model
+package com.dpfht.tmdbmvp.data.model
 
 data class Genre(
     var id: Int = 0,

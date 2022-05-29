@@ -1,8 +1,8 @@
 package com.dpfht.tmdbmvp.feature.moviedetails
 
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
-import com.dpfht.tmdbmvp.model.response.MovieDetailsResponse
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
 import retrofit2.Call
 import retrofit2.Callback

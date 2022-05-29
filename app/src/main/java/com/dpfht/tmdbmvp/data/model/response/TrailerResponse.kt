@@ -1,6 +1,6 @@
-package com.dpfht.tmdbmvp.model.response
+package com.dpfht.tmdbmvp.data.model.response
 
-import com.dpfht.tmdbmvp.model.Trailer
+import com.dpfht.tmdbmvp.data.model.Trailer
 
 data class TrailerResponse(
     var id: Int = 0,

@@ -1,4 +1,4 @@
-package com.dpfht.tmdbmvp.rest
+package com.dpfht.tmdbmvp.data.api
 
 import com.google.gson.annotations.SerializedName
 

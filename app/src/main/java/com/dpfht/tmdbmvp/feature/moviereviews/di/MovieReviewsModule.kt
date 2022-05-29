@@ -11,7 +11,7 @@ import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsFragment
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsModelImpl
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsPresenterImpl
 import com.dpfht.tmdbmvp.feature.moviereviews.adapter.MovieReviewsAdapter
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
 

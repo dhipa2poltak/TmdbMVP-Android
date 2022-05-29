@@ -1,6 +1,6 @@
 package com.dpfht.tmdbmvp.di
 
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Component
 import javax.inject.Singleton
 

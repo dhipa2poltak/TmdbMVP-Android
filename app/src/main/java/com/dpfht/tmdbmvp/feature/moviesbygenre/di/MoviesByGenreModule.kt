@@ -11,7 +11,7 @@ import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreFragment
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreModelImpl
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenrePresenterImpl
 import com.dpfht.tmdbmvp.feature.moviesbygenre.adapter.MoviesByGenreAdapter
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
 

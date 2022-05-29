@@ -1,11 +1,11 @@
-package com.dpfht.tmdbmvp.repository
+package com.dpfht.tmdbmvp.data.repository
 
-import com.dpfht.tmdbmvp.model.response.DiscoverMovieByGenreResponse
-import com.dpfht.tmdbmvp.model.response.GenreResponse
-import com.dpfht.tmdbmvp.model.response.MovieDetailsResponse
-import com.dpfht.tmdbmvp.model.response.ReviewResponse
-import com.dpfht.tmdbmvp.model.response.TrailerResponse
-import com.dpfht.tmdbmvp.rest.RestService
+import com.dpfht.tmdbmvp.data.model.response.DiscoverMovieByGenreResponse
+import com.dpfht.tmdbmvp.data.model.response.GenreResponse
+import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.model.response.ReviewResponse
+import com.dpfht.tmdbmvp.data.model.response.TrailerResponse
+import com.dpfht.tmdbmvp.data.api.RestService
 import retrofit2.Call
 
 class AppRepositoryImpl(private val restService: RestService): AppRepository {

@@ -1,9 +1,9 @@
 package com.dpfht.tmdbmvp.feature.moviereviews
 
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
-import com.dpfht.tmdbmvp.model.Review
-import com.dpfht.tmdbmvp.model.response.ReviewResponse
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.model.Review
+import com.dpfht.tmdbmvp.data.model.response.ReviewResponse
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
 import retrofit2.Call
 import retrofit2.Callback

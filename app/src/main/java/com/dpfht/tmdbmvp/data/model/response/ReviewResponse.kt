@@ -1,6 +1,6 @@
-package com.dpfht.tmdbmvp.model.response
+package com.dpfht.tmdbmvp.data.model.response
 
-import com.dpfht.tmdbmvp.model.Review
+import com.dpfht.tmdbmvp.data.model.Review
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

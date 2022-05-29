@@ -2,7 +2,7 @@ package com.dpfht.tmdbmvp.di
 
 import com.dpfht.tmdbmvp.BuildConfig
 import com.dpfht.tmdbmvp.Config
-import com.dpfht.tmdbmvp.rest.RestService
+import com.dpfht.tmdbmvp.data.api.RestService
 import dagger.Module
 import dagger.Provides
 import okhttp3.CertificatePinner

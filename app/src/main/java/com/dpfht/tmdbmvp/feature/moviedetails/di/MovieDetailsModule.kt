@@ -10,7 +10,7 @@ import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsV
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsFragment
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsModelImpl
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsPresenterImpl
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
 

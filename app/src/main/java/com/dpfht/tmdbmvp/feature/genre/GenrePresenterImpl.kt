@@ -4,7 +4,7 @@ import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenrePresenter
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreView
-import com.dpfht.tmdbmvp.model.Genre
+import com.dpfht.tmdbmvp.data.model.Genre
 
 class GenrePresenterImpl(
   private var genreView: GenreView? = null,

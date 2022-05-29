@@ -1,9 +1,9 @@
 package com.dpfht.tmdbmvp.feature.genre
 
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
-import com.dpfht.tmdbmvp.model.Genre
-import com.dpfht.tmdbmvp.model.response.GenreResponse
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.model.Genre
+import com.dpfht.tmdbmvp.data.model.response.GenreResponse
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
 import retrofit2.Call
 import retrofit2.Callback

@@ -2,7 +2,7 @@ package com.dpfht.tmdbmvp.feature.moviereviews
 
 import com.dpfht.tmdbmvp.base.BasePresenter
 import com.dpfht.tmdbmvp.base.BaseView
-import com.dpfht.tmdbmvp.model.Review
+import com.dpfht.tmdbmvp.data.model.Review
 
 interface MovieReviewsContract {
 

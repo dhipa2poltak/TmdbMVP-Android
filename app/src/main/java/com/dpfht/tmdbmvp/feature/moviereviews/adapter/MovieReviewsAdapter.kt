@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dpfht.tmdbmvp.R
 import com.dpfht.tmdbmvp.databinding.RowReviewBinding
-import com.dpfht.tmdbmvp.model.Review
+import com.dpfht.tmdbmvp.data.model.Review
 
 class MovieReviewsAdapter(private val reviews: ArrayList<Review>): RecyclerView.Adapter<MovieReviewsAdapter.ReviewHolder>() {
 

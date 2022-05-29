@@ -1,9 +1,9 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre
 
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreModel
-import com.dpfht.tmdbmvp.model.Movie
-import com.dpfht.tmdbmvp.model.response.DiscoverMovieByGenreResponse
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.model.Movie
+import com.dpfht.tmdbmvp.data.model.response.DiscoverMovieByGenreResponse
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
 import retrofit2.Call
 import retrofit2.Callback
