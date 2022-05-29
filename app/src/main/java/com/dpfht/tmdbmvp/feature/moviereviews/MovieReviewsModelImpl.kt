@@ -1,13 +1,14 @@
 package com.dpfht.tmdbmvp.feature.moviereviews
 
-import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
+import com.dpfht.tmdbmvp.data.api.CallbackWrapper
 import com.dpfht.tmdbmvp.data.model.Review
+import com.dpfht.tmdbmvp.data.model.response.ReviewResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
-import com.dpfht.tmdbmvp.util.ErrorUtil
+import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.io.IOException
+import retrofit2.Response
 
 class MovieReviewsModelImpl(
   val appRepository: AppRepository
@@ -25,23 +26,19 @@ class MovieReviewsModelImpl(
     val subs = appRepository.getMovieReviews(movieId, page)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribe({ response ->
-        if (response.isSuccessful) {
-          response.body()?.let { resp ->
-            resp.results?.let {
-              onSuccess(it, resp.page)
-            }
+      .subscribeWith(object : CallbackWrapper<Response<ReviewResponse?>, ReviewResponse?>() {
+        override fun onSuccessCall(response: ReviewResponse?) {
+          response?.results?.let {
+            onSuccess(it, response.page)
           }
-        } else {
-          val errorResponse = ErrorUtil.parseApiError(response)
-
-          onError(errorResponse.statusMessage ?: "")
         }
-      }, { t ->
-        if (t is IOException) {
-          onError("error in connection")
-        } else {
-          onError("error in conversion")
+
+        override fun onErrorCall(str: String) {
+          onError(str)
+        }
+
+        override fun onCancelCall() {
+          onCancel()
         }
       })
 

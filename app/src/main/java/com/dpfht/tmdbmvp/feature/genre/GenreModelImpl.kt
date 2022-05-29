@@ -1,13 +1,14 @@
 package com.dpfht.tmdbmvp.feature.genre
 
-import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
+import com.dpfht.tmdbmvp.data.api.CallbackWrapper
 import com.dpfht.tmdbmvp.data.model.Genre
+import com.dpfht.tmdbmvp.data.model.response.GenreResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
-import com.dpfht.tmdbmvp.util.ErrorUtil
+import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.io.IOException
+import retrofit2.Response
 
 class GenreModelImpl(
   val appRepository: AppRepository
@@ -23,21 +24,19 @@ class GenreModelImpl(
     val subs = appRepository.getMovieGenre()
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribe({ response ->
-        if (response.isSuccessful) {
-          response.body()?.genres?.let {
+      .subscribeWith(object : CallbackWrapper<Response<GenreResponse?>, GenreResponse?>() {
+        override fun onSuccessCall(response: GenreResponse?) {
+          response?.genres?.let {
             onSuccess(it)
           }
-        } else {
-          val errorResponse = ErrorUtil.parseApiError(response)
-
-          onError(errorResponse.statusMessage ?: "")
         }
-      }, { t ->
-        if (t is IOException) {
-          onError("error in connection")
-        } else {
-          onError("error in conversion")
+
+        override fun onErrorCall(str: String) {
+          onError(str)
+        }
+
+        override fun onCancelCall() {
+          onCancel()
         }
       })
 
