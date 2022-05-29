@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dpfht.tmdbmvp.databinding.RowMovieBinding
-import com.dpfht.tmdbmvp.model.Movie
+import com.dpfht.tmdbmvp.data.model.Movie
 
 class MoviesByGenreAdapter(private val movies: ArrayList<Movie>): RecyclerView.Adapter<MoviesByGenreAdapter.MovieByGenreHolder>() {
 

@@ -11,7 +11,7 @@ import com.dpfht.tmdbmvp.feature.genre.GenreFragment
 import com.dpfht.tmdbmvp.feature.genre.GenreModelImpl
 import com.dpfht.tmdbmvp.feature.genre.GenrePresenterImpl
 import com.dpfht.tmdbmvp.feature.genre.adapter.GenreAdapter
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
 

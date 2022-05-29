@@ -3,7 +3,7 @@ package com.dpfht.tmdbmvp.feature.moviereviews
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsPresenter
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsView
-import com.dpfht.tmdbmvp.model.Review
+import com.dpfht.tmdbmvp.data.model.Review
 
 class MovieReviewsPresenterImpl(
   private var movieReviewsView: MovieReviewsView? = null,

@@ -1,6 +1,6 @@
 package com.dpfht.tmdbmvp.util
 
-import com.dpfht.tmdbmvp.rest.ErrorResponse
+import com.dpfht.tmdbmvp.data.api.ErrorResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Response

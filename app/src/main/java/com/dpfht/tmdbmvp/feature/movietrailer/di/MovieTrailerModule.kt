@@ -7,7 +7,7 @@ import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerP
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerView
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerModelImpl
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerPresenterImpl
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
 

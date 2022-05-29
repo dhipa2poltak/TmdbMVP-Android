@@ -1,8 +1,8 @@
 package com.dpfht.tmdbmvp.feature.movietrailer
 
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerModel
-import com.dpfht.tmdbmvp.model.Trailer
-import com.dpfht.tmdbmvp.repository.AppRepository
+import com.dpfht.tmdbmvp.data.model.Trailer
+import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.util.ErrorUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

@@ -4,7 +4,7 @@ import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreModel
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenrePresenter
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreView
-import com.dpfht.tmdbmvp.model.Movie
+import com.dpfht.tmdbmvp.data.model.Movie
 
 class MoviesByGenrePresenterImpl(
   private var moviesByGenreView: MoviesByGenreView? = null,

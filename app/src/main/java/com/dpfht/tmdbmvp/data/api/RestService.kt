@@ -1,10 +1,10 @@
-package com.dpfht.tmdbmvp.rest
+package com.dpfht.tmdbmvp.data.api
 
-import com.dpfht.tmdbmvp.model.response.DiscoverMovieByGenreResponse
-import com.dpfht.tmdbmvp.model.response.GenreResponse
-import com.dpfht.tmdbmvp.model.response.MovieDetailsResponse
-import com.dpfht.tmdbmvp.model.response.ReviewResponse
-import com.dpfht.tmdbmvp.model.response.TrailerResponse
+import com.dpfht.tmdbmvp.data.model.response.DiscoverMovieByGenreResponse
+import com.dpfht.tmdbmvp.data.model.response.GenreResponse
+import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.model.response.ReviewResponse
+import com.dpfht.tmdbmvp.data.model.response.TrailerResponse
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.GET

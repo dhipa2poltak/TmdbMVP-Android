@@ -3,7 +3,7 @@ package com.dpfht.tmdbmvp.feature.movietrailer
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerModel
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerPresenter
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerView
-import com.dpfht.tmdbmvp.model.Trailer
+import com.dpfht.tmdbmvp.data.model.Trailer
 import java.util.Locale
 
 class MovieTrailerPresenterImpl(

@@ -2,9 +2,9 @@ package com.dpfht.tmdbmvp.di
 
 import android.content.Context
 import com.dpfht.tmdbmvp.TheApplication
-import com.dpfht.tmdbmvp.repository.AppRepository
-import com.dpfht.tmdbmvp.repository.AppRepositoryImpl
-import com.dpfht.tmdbmvp.rest.RestService
+import com.dpfht.tmdbmvp.data.repository.AppRepository
+import com.dpfht.tmdbmvp.data.repository.AppRepositoryImpl
+import com.dpfht.tmdbmvp.data.api.RestService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

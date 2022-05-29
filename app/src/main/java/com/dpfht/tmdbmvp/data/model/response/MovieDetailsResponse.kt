@@ -1,9 +1,9 @@
-package com.dpfht.tmdbmvp.model.response
+package com.dpfht.tmdbmvp.data.model.response
 
-import com.dpfht.tmdbmvp.model.Genre
-import com.dpfht.tmdbmvp.model.ProductionCompany
-import com.dpfht.tmdbmvp.model.ProductionCountry
-import com.dpfht.tmdbmvp.model.SpokenLanguage
+import com.dpfht.tmdbmvp.data.model.Genre
+import com.dpfht.tmdbmvp.data.model.ProductionCompany
+import com.dpfht.tmdbmvp.data.model.ProductionCountry
+import com.dpfht.tmdbmvp.data.model.SpokenLanguage
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
