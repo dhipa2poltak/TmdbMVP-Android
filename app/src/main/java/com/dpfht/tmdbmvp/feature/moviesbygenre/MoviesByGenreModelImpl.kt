@@ -11,10 +11,9 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 
 class MoviesByGenreModelImpl(
-  val appRepository: AppRepository
+  private val appRepository: AppRepository,
+  private val compositeDisposable: CompositeDisposable
 ): MoviesByGenreModel {
-
-  private val compositeDisposable = CompositeDisposable()
 
   override fun getMoviesByGenre(
     genreId: Int,

@@ -11,9 +11,8 @@ interface MovieReviewsContract {
   }
 
   interface MovieReviewsPresenter: BasePresenter {
-    var isLoadingData: Boolean
-    val reviews: ArrayList<Review>
-
+    fun isLoadingData(): Boolean
+    fun isEmptyReviews(): Boolean
     fun setMovieIdValue(movieId: Int)
     fun getMovieReviews()
   }

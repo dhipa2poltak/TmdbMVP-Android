@@ -11,10 +11,9 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 
 class MovieReviewsModelImpl(
-  val appRepository: AppRepository
+  private val appRepository: AppRepository,
+  private val compositeDisposable: CompositeDisposable
 ): MovieReviewsModel {
-
-  private val compositeDisposable = CompositeDisposable()
 
   override fun getMovieReviews(
     movieId: Int,

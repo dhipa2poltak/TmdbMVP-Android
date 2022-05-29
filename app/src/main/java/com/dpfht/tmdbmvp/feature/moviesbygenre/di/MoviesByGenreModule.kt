@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre.di
 
 import android.content.Context
+import com.dpfht.tmdbmvp.data.model.Movie
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope
@@ -14,6 +15,7 @@ import com.dpfht.tmdbmvp.feature.moviesbygenre.adapter.MoviesByGenreAdapter
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 @Module(includes = [FragmentModule::class])
 class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragment) {
@@ -33,22 +35,38 @@ class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragme
 
   @Provides
   @FragmentScope
-  fun provideMoviesByGenreModel(appRepository: AppRepository): MoviesByGenreModel {
-    return MoviesByGenreModelImpl(appRepository)
+  fun provideMoviesByGenreModel(
+    appRepository: AppRepository,
+    compositeDisposable: CompositeDisposable
+  ): MoviesByGenreModel {
+    return MoviesByGenreModelImpl(appRepository, compositeDisposable)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMovies(): ArrayList<Movie> {
+    return arrayListOf()
   }
 
   @Provides
   @FragmentScope
   fun provideMoviesByGenrePresenter(
     moviesByGenreView: MoviesByGenreView,
-    moviesByGenreModel: MoviesByGenreModel
+    moviesByGenreModel: MoviesByGenreModel,
+    movies: ArrayList<Movie>
   ): MoviesByGenrePresenter {
-    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel)
+    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel, movies)
   }
 
   @Provides
   @FragmentScope
-  fun provideMoviesByGenreAdapter(moviesByGenrePresenter: MoviesByGenrePresenter): MoviesByGenreAdapter {
-    return MoviesByGenreAdapter(moviesByGenrePresenter.movies)
+  fun provideMoviesByGenreAdapter(movies: ArrayList<Movie>): MoviesByGenreAdapter {
+    return MoviesByGenreAdapter(movies)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
   }
 }

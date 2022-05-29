@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.genre.di
 
 import android.content.Context
+import com.dpfht.tmdbmvp.data.model.Genre
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope
@@ -14,6 +15,7 @@ import com.dpfht.tmdbmvp.feature.genre.adapter.GenreAdapter
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 @Module(includes = [FragmentModule::class])
 class GenreModule(private val genreFragment: GenreFragment) {
@@ -33,19 +35,35 @@ class GenreModule(private val genreFragment: GenreFragment) {
 
   @Provides
   @FragmentScope
-  fun provideGenreModel(appRepository: AppRepository): GenreModel {
-    return GenreModelImpl(appRepository)
+  fun provideGenreModel(appRepository: AppRepository, compositeDisposable: CompositeDisposable): GenreModel {
+    return GenreModelImpl(appRepository, compositeDisposable)
   }
 
   @Provides
   @FragmentScope
-  fun provideGenrePresenter(genreView: GenreView, genreModel: GenreModel): GenrePresenter {
-    return GenrePresenterImpl(genreView, genreModel)
+  fun provideGenres(): ArrayList<Genre> {
+    return arrayListOf()
   }
 
   @Provides
   @FragmentScope
-  fun provideGenreAdapter(genrePresenter: GenrePresenter): GenreAdapter {
-    return GenreAdapter(genrePresenter.genres)
+  fun provideGenrePresenter(
+    genreView: GenreView,
+    genreModel: GenreModel,
+    genres: ArrayList<Genre>
+  ): GenrePresenter {
+    return GenrePresenterImpl(genreView, genreModel, genres)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideGenreAdapter(genres: ArrayList<Genre>): GenreAdapter {
+    return GenreAdapter(genres)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
   }
 }

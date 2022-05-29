@@ -12,9 +12,8 @@ interface MoviesByGenreContract {
   }
 
   interface MoviesByGenrePresenter: BasePresenter {
-    var isLoadingData: Boolean
-    val movies: ArrayList<Movie>
-
+    fun isLoadingData(): Boolean
+    fun isEmptyMovies(): Boolean
     fun setGenreIdValue(genreId: Int)
     fun getMoviesByGenre()
     fun getNavDirectionsOnClickMovieAt(position: Int): NavDirections

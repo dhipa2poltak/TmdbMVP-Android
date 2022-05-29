@@ -10,6 +10,7 @@ import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerPresenterImpl
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 @Module
 class MovieTrailerModule(private val movieTrailerActivity: MovieTrailerActivity) {
@@ -22,8 +23,11 @@ class MovieTrailerModule(private val movieTrailerActivity: MovieTrailerActivity)
 
   @Provides
   @ActivityScope
-  fun provideMovieTrailerModel(appRepository: AppRepository): MovieTrailerModel {
-    return MovieTrailerModelImpl(appRepository)
+  fun provideMovieTrailerModel(
+    appRepository: AppRepository,
+    compositeDisposable: CompositeDisposable
+  ): MovieTrailerModel {
+    return MovieTrailerModelImpl(appRepository, compositeDisposable)
   }
 
   @Provides
@@ -33,5 +37,11 @@ class MovieTrailerModule(private val movieTrailerActivity: MovieTrailerActivity)
     movieTrailerModel: MovieTrailerModel
   ): MovieTrailerPresenter {
     return MovieTrailerPresenterImpl(movieTrailerView, movieTrailerModel)
+  }
+
+  @Provides
+  @ActivityScope
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
   }
 }

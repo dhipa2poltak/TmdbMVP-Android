@@ -12,8 +12,7 @@ interface GenreContract {
   }
 
   interface GenrePresenter: BasePresenter {
-    val genres: ArrayList<Genre>
-
+    fun isEmptyGenres(): Boolean
     fun getMovieGenre()
     fun getNavDirectionsOnClickGenreAt(position: Int): NavDirections
   }

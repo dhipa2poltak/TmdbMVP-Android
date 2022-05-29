@@ -13,6 +13,7 @@ import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsPresenterImpl
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 @Module(includes = [FragmentModule::class])
 class MovieDetailsModule(private val movieDetailsFragment: MovieDetailsFragment) {
@@ -32,8 +33,11 @@ class MovieDetailsModule(private val movieDetailsFragment: MovieDetailsFragment)
 
   @Provides
   @FragmentScope
-  fun provideMovieDetailsModel(appRepository: AppRepository): MovieDetailsModel {
-    return MovieDetailsModelImpl(appRepository)
+  fun provideMovieDetailsModel(
+    appRepository: AppRepository,
+    compositeDisposable: CompositeDisposable
+  ): MovieDetailsModel {
+    return MovieDetailsModelImpl(appRepository, compositeDisposable)
   }
 
   @Provides
@@ -43,5 +47,11 @@ class MovieDetailsModule(private val movieDetailsFragment: MovieDetailsFragment)
     movieDetailsModel: MovieDetailsModel
   ): MovieDetailsPresenter {
     return MovieDetailsPresenterImpl(movieDetailsView, movieDetailsModel)
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
   }
 }

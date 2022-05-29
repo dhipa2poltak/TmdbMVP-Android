@@ -73,7 +73,7 @@ class MoviesByGenreFragment : BaseFragment(), MoviesByGenreView {
         val xy = recyclerView.computeVerticalScrollOffset()
         val xz = recyclerView.computeVerticalScrollExtent()
         val zz = (xy.toFloat() / (xx - xz).toFloat() * 100).toInt()
-        if (zz >= 75 && !presenter.isLoadingData) {
+        if (zz >= 75 && !presenter.isLoadingData()) {
           presenter.getMoviesByGenre()
         }
         super.onScrolled(recyclerView, dx, dy)
@@ -86,7 +86,7 @@ class MoviesByGenreFragment : BaseFragment(), MoviesByGenreView {
 
     binding.tvTitle.text = genreName
 
-    if (genreId != -1 && presenter.movies.isEmpty()) {
+    if (genreId != -1 && presenter.isEmptyMovies()) {
       presenter.setGenreIdValue(genreId)
       presenter.getMoviesByGenre()
     }

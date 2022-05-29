@@ -65,7 +65,7 @@ class GenreFragment : BaseFragment(), GenreView {
       }
     }
 
-    if (presenter.genres.isEmpty()) {
+    if (presenter.isEmptyGenres()) {
       presenter.getMovieGenre()
     }
   }

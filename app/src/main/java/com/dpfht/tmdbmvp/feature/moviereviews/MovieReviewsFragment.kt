@@ -65,7 +65,7 @@ class MovieReviewsFragment : BaseFragment(), MovieReviewsView {
         val xy = recyclerView.computeVerticalScrollOffset()
         val xz = recyclerView.computeVerticalScrollExtent()
         val zz = (xy.toFloat() / (xx - xz).toFloat() * 100).toInt()
-        if (zz >= 75 && !presenter.isLoadingData) {
+        if (zz >= 75 && !presenter.isLoadingData()) {
           presenter.getMovieReviews()
         }
         super.onScrolled(recyclerView, dx, dy)
@@ -78,7 +78,7 @@ class MovieReviewsFragment : BaseFragment(), MovieReviewsView {
 
     binding.tvMovieName.text = movieTitle
 
-    if (movieId != -1 && presenter.reviews.size == 0) {
+    if (movieId != -1 && presenter.isEmptyReviews()) {
       presenter.setMovieIdValue(movieId)
       presenter.getMovieReviews()
     }

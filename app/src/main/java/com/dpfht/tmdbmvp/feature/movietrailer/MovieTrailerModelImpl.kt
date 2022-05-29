@@ -11,10 +11,9 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 
 class MovieTrailerModelImpl(
-  val appRepository: AppRepository
+  private val appRepository: AppRepository,
+  private val compositeDisposable: CompositeDisposable
 ): MovieTrailerModel {
-
-  private val compositeDisposable = CompositeDisposable()
 
   override fun getMovieTrailer(
     movieId: Int,
