@@ -65,9 +65,7 @@ class GenreFragment : BaseFragment(), GenreView {
       }
     }
 
-    if (presenter.isEmptyGenre()) {
-      presenter.getMovieGenre()
-    }
+    presenter.start()
   }
 
   override fun notifyItemInserted(position: Int) {

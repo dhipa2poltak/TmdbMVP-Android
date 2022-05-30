@@ -13,8 +13,7 @@ interface MoviesByGenreContract {
 
   interface MoviesByGenrePresenter: BasePresenter {
     fun isLoadingData(): Boolean
-    fun isEmptyMovies(): Boolean
-    fun setGenreIdValue(genreId: Int)
+    fun setGenreId(genreId: Int)
     fun getMoviesByGenre()
     fun getNavDirectionsOnClickMovieAt(position: Int): NavDirections
   }

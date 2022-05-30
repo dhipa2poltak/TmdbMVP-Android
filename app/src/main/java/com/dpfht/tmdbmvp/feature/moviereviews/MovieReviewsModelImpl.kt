@@ -18,14 +18,14 @@ class MovieReviewsModelImpl(
     onCancel: () -> Unit
   ) {
     appRepository.getMovieReviews(movieId, page).enqueue(object : CallbackWrapper<ReviewResponse?>() {
-      override fun onSuccessCall(t: ReviewResponse?) {
-        t?.results?.let {
-          onSuccess(it, t.page)
+      override fun onSuccessCall(responseBody: ReviewResponse?) {
+        responseBody?.results?.let {
+          onSuccess(it, responseBody.page)
         }
       }
 
-      override fun onErrorCall(str: String) {
-        onError(str)
+      override fun onErrorCall(message: String) {
+        onError(message)
       }
 
       override fun onCancelCall() {

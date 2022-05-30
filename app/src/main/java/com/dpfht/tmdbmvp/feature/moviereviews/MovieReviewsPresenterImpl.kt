@@ -12,22 +12,26 @@ class MovieReviewsPresenterImpl(
 ): MovieReviewsPresenter {
 
   private var _isLoadingData = false
-  private var movieId = -1
+  private var _movieId = -1
   private var page = 0
+
+  override fun start() {
+    if (_movieId != -1 && reviews.isEmpty()) {
+      getMovieReviews()
+    }
+  }
 
   override fun isLoadingData() = _isLoadingData
 
-  override fun isEmptyReviews() = reviews.isEmpty()
-
-  override fun setMovieIdValue(movieId: Int) {
-    this.movieId = movieId
+  override fun setMovieId(movieId: Int) {
+    this._movieId = movieId
   }
 
   override fun getMovieReviews() {
     movieReviewsView?.showLoadingDialog()
     _isLoadingData = true
     movieReviewsModel?.getMovieReviews(
-      movieId, page + 1, this::onSuccess, this::onError, this::onCancel
+      _movieId, page + 1, this::onSuccess, this::onError, this::onCancel
     )
   }
 

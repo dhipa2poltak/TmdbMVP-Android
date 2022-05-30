@@ -12,7 +12,7 @@ interface MovieTrailerContract {
   }
 
   interface MovieTrailerPresenter: BasePresenter {
-    fun getMovieTrailer(movieId: Int)
+    fun setMovieId(movieId: Int)
   }
 
   interface MovieTrailerModel {

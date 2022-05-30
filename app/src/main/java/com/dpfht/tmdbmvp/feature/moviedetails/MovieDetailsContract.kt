@@ -1,5 +1,6 @@
 package com.dpfht.tmdbmvp.feature.moviedetails
 
+import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.base.BasePresenter
 import com.dpfht.tmdbmvp.base.BaseView
 import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
@@ -11,12 +12,9 @@ interface MovieDetailsContract {
   }
 
   interface MovieDetailsPresenter: BasePresenter {
-    var movieId: Int
-    var title: String
-    var overview: String
-    var imageUrl: String
-
-    fun getMovieDetails(movieId: Int)
+    fun setMovieId(movieId: Int)
+    fun getMovieId(): Int
+    fun getNavDirectionsToMovieReviews(): NavDirections
   }
 
   interface MovieDetailsModel {

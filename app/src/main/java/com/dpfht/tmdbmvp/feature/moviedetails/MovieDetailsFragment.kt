@@ -61,11 +61,8 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView {
     val args = MovieDetailsFragmentArgs.fromBundle(requireArguments())
     val movieId = args.movieId
 
-    if (movieId != -1 && presenter.movieId == -1) {
-      presenter.getMovieDetails(movieId)
-    } else if (presenter.movieId != -1) {
-      showMovieDetails(presenter.title, presenter.overview, presenter.imageUrl)
-    }
+    presenter.setMovieId(movieId)
+    presenter.start()
   }
 
   override fun showMovieDetails(title: String, overview: String, imageUrl: String) {
@@ -81,15 +78,13 @@ class MovieDetailsFragment : BaseFragment(), MovieDetailsView {
   }
 
   private fun onClickShowReview() {
-    val action = MovieDetailsFragmentDirections.actionMovieDetailsToMovieReviews(
-      presenter.movieId, presenter.title
-    )
-    Navigation.findNavController(requireView()).navigate(action)
+    val navDirections = presenter.getNavDirectionsToMovieReviews()
+    Navigation.findNavController(requireView()).navigate(navDirections)
   }
 
   private fun onClickShowTrailer() {
     val itn = Intent(requireContext(), MovieTrailerActivity::class.java)
-    itn.putExtra("movie_id", presenter.movieId)
+    itn.putExtra("movie_id", presenter.getMovieId())
     requireActivity().startActivity(itn)
   }
 

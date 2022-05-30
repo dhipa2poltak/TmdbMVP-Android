@@ -30,9 +30,9 @@ abstract class CallbackWrapper<T>: Callback<T> {
     }
   }
 
-  protected abstract fun onSuccessCall(t: T)
+  protected abstract fun onSuccessCall(responseBody: T)
 
-  protected abstract fun onErrorCall(str: String)
+  protected abstract fun onErrorCall(message: String)
 
   protected abstract fun onCancelCall()
 }

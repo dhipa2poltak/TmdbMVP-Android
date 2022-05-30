@@ -12,23 +12,27 @@ class MoviesByGenrePresenterImpl(
   private val movies: ArrayList<Movie>
 ): MoviesByGenrePresenter {
 
-  private var genreId = -1
+  private var _genreId = -1
   private var page = 0
   private var _isLoadingData = false
 
+  override fun start() {
+    if (_genreId != -1 && movies.isEmpty()) {
+      getMoviesByGenre()
+    }
+  }
+
   override fun isLoadingData() = _isLoadingData
 
-  override fun isEmptyMovies() = movies.isEmpty()
-
-  override fun setGenreIdValue(genreId: Int) {
-    this.genreId = genreId
+  override fun setGenreId(genreId: Int) {
+    this._genreId = genreId
   }
 
   override fun getMoviesByGenre() {
     moviesByGenreView?.showLoadingDialog()
     _isLoadingData = true
     moviesByGenreModel?.getMoviesByGenre(
-      genreId, page + 1, this::onSuccess, this::onError, this::onCancel
+      _genreId, page + 1, this::onSuccess, this::onError, this::onCancel
     )
   }
 

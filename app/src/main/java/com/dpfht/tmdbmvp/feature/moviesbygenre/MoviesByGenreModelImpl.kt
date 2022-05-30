@@ -18,14 +18,14 @@ class MoviesByGenreModelImpl(
     onCancel: () -> Unit
   ) {
     appRepository.getMoviesByGenre(genreId.toString(), page).enqueue(object : CallbackWrapper<DiscoverMovieByGenreResponse?>() {
-      override fun onSuccessCall(t: DiscoverMovieByGenreResponse?) {
-        t?.results?.let {
-          onSuccess(it, t.page)
+      override fun onSuccessCall(responseBody: DiscoverMovieByGenreResponse?) {
+        responseBody?.results?.let {
+          onSuccess(it, responseBody.page)
         }
       }
 
-      override fun onErrorCall(str: String) {
-        onError(str)
+      override fun onErrorCall(message: String) {
+        onError(message)
       }
 
       override fun onCancelCall() {

@@ -39,9 +39,8 @@ class MovieTrailerActivity : YouTubeBaseActivity(), MovieTrailerView {
     if (intent.hasExtra("movie_id")) {
       val movieId = intent.getIntExtra("movie_id", -1)
 
-      if (movieId != -1) {
-        presenter.getMovieTrailer(movieId)
-      }
+      presenter.setMovieId(movieId)
+      presenter.start()
     }
   }
 

@@ -12,8 +12,6 @@ interface GenreContract {
   }
 
   interface GenrePresenter: BasePresenter {
-    fun isEmptyGenre(): Boolean
-    fun getMovieGenre()
     fun getNavDirectionsOnClickGenreAt(position: Int): NavDirections
   }
 
