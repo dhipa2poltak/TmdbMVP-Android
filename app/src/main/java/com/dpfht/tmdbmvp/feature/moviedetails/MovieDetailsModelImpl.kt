@@ -22,7 +22,7 @@ class MovieDetailsModelImpl(
     onCancel: () -> Unit
   ) {
     scope.launch(Dispatchers.Main) {
-      when (val responseBody = appRepository.getMovieDetail(movieId)) {   // switch to IO
+      when (val responseBody = appRepository.getMovieDetail(movieId)) {   // switch to Dispatchers.IO in Repository
         is Success -> {
           onSuccess(responseBody.value)
         }

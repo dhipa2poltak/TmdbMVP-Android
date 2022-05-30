@@ -23,7 +23,7 @@ class MovieReviewsModelImpl(
     onCancel: () -> Unit
   ) {
     scope.launch(Dispatchers.Main) {
-      when (val responseBody = appRepository.getMovieReviews(movieId, page)) {    // switch to IO
+      when (val responseBody = appRepository.getMovieReviews(movieId, page)) {    // switch to Dispatchers.IO in Repository
         is Success -> {
           val reviews = responseBody.value.results ?: arrayListOf()
           onSuccess(reviews, responseBody.value.page)

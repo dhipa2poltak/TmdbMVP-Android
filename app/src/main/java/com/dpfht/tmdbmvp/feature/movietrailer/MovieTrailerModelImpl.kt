@@ -23,7 +23,7 @@ class MovieTrailerModelImpl(
     onCancel: () -> Unit
   ) {
     scope.launch(Dispatchers.Main) {
-      when (val responseBody = appRepository.getMovieTrailer(movieId)) {    // switch to IO
+      when (val responseBody = appRepository.getMovieTrailer(movieId)) {    // switch to Dispatchers.IO in Repository
         is Success -> {
           val trailers = responseBody.value.results ?: arrayListOf()
           onSuccess(trailers)

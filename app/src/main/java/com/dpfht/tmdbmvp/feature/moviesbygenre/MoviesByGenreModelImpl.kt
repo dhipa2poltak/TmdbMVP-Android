@@ -23,7 +23,7 @@ class MoviesByGenreModelImpl(
     onCancel: () -> Unit
   ) {
     scope.launch(Dispatchers.Main) {
-      when (val responseBody = appRepository.getMoviesByGenre(genreId.toString(), page)) {  // switch to IO
+      when (val responseBody = appRepository.getMoviesByGenre(genreId.toString(), page)) {  // switch to Dispatchers.IO in Repository
         is Success -> {
           val movies = responseBody.value.results ?: arrayListOf()
           onSuccess(movies, responseBody.value.page)
