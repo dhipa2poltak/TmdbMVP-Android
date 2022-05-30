@@ -24,14 +24,14 @@ class GenreModelImpl(
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .subscribeWith(object : CallbackWrapper<Response<GenreResponse?>, GenreResponse?>() {
-        override fun onSuccessCall(response: GenreResponse?) {
-          response?.genres?.let {
+        override fun onSuccessCall(responseBody: GenreResponse?) {
+          responseBody?.genres?.let {
             onSuccess(it)
           }
         }
 
-        override fun onErrorCall(str: String) {
-          onError(str)
+        override fun onErrorCall(message: String) {
+          onError(message)
         }
 
         override fun onCancelCall() {

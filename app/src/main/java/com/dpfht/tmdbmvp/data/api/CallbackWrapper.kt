@@ -27,9 +27,9 @@ abstract class CallbackWrapper<T: Response<R>, R>: DisposableObserver<T>() {
 
   override fun onComplete() {}
 
-  protected abstract fun onSuccessCall(response: R)
+  protected abstract fun onSuccessCall(responseBody: R)
 
-  protected abstract fun onErrorCall(str: String)
+  protected abstract fun onErrorCall(message: String)
 
   protected abstract fun onCancelCall()
 }

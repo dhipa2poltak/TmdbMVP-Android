@@ -1,5 +1,6 @@
 package com.dpfht.tmdbmvp.feature.moviedetails
 
+import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.Config
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsPresenter
@@ -11,15 +12,31 @@ class MovieDetailsPresenterImpl(
   private var movieDetailsModel: MovieDetailsModel? = null
 ): MovieDetailsPresenter {
 
-  override var movieId = -1
-  override var title = ""
-  override var overview = ""
-  override var imageUrl = ""
+  private var _movieId = -1
+  private var title = ""
+  private var overview = ""
+  private var imageUrl = ""
 
-  override fun getMovieDetails(movieId: Int) {
+  override fun setMovieId(movieId: Int) {
+    this._movieId = movieId
+  }
+
+  override fun getMovieId(): Int {
+    return _movieId
+  }
+
+  override fun start() {
+    if (title.isEmpty()) {
+      getMovieDetails()
+    } else {
+      movieDetailsView?.showMovieDetails(title, overview, imageUrl)
+    }
+  }
+
+  private fun getMovieDetails() {
     movieDetailsView?.showLoadingDialog()
     movieDetailsModel?.getMovieDetails(
-      movieId, this::onSuccess, this::onError, this::onCancel
+      _movieId, this::onSuccess, this::onError, this::onCancel
     )
   }
 
@@ -29,7 +46,7 @@ class MovieDetailsPresenterImpl(
       imageUrl = Config.IMAGE_URL_BASE_PATH + response.posterPath
     }
 
-    movieId = response.id
+    _movieId = response.id
     title = response.title ?: ""
     overview = response.overview ?: ""
     movieDetailsView?.showMovieDetails(
@@ -48,6 +65,10 @@ class MovieDetailsPresenterImpl(
   fun onCancel() {
     movieDetailsView?.hideLoadingDialog()
     movieDetailsView?.showCanceledMessage()
+  }
+
+  override fun getNavDirectionsToMovieReviews(): NavDirections {
+    return MovieDetailsFragmentDirections.actionMovieDetailsToMovieReviews(_movieId, title)
   }
 
   override fun onDestroy() {

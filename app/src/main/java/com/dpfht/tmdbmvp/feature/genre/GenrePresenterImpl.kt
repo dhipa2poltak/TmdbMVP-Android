@@ -12,9 +12,13 @@ class GenrePresenterImpl(
   private val genres: ArrayList<Genre>
 ): GenrePresenter {
 
-  override fun isEmptyGenres() = genres.isEmpty()
+  override fun start() {
+    if (genres.isEmpty()) {
+      getMovieGenre()
+    }
+  }
 
-  override fun getMovieGenre() {
+  private fun getMovieGenre() {
     genreView?.showLoadingDialog()
     genreModel?.getMovieGenre(this::onSuccess, this::onError, this::onCancel)
   }

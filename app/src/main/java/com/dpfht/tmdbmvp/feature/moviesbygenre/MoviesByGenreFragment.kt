@@ -84,12 +84,11 @@ class MoviesByGenreFragment : BaseFragment(), MoviesByGenreView {
     val genreId = args.genreId
     val genreName = args.genreName
 
-    binding.tvTitle.text = genreName
+    val title = "$genreName movies"
+    binding.tvTitle.text = title
 
-    if (genreId != -1 && presenter.isEmptyMovies()) {
-      presenter.setGenreIdValue(genreId)
-      presenter.getMoviesByGenre()
-    }
+    presenter.setGenreId(genreId)
+    presenter.start()
   }
 
   override fun notifyItemInserted(position: Int) {

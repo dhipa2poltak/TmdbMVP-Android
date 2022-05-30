@@ -25,14 +25,14 @@ class MovieTrailerModelImpl(
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .subscribeWith(object : CallbackWrapper<Response<TrailerResponse?>, TrailerResponse?>() {
-        override fun onSuccessCall(response: TrailerResponse?) {
-          response?.results?.let {
+        override fun onSuccessCall(responseBody: TrailerResponse?) {
+          responseBody?.results?.let {
             onSuccess(it)
           }
         }
 
-        override fun onErrorCall(str: String) {
-          onError(str)
+        override fun onErrorCall(message: String) {
+          onError(message)
         }
 
         override fun onCancelCall() {

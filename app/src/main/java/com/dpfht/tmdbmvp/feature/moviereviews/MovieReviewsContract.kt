@@ -12,8 +12,7 @@ interface MovieReviewsContract {
 
   interface MovieReviewsPresenter: BasePresenter {
     fun isLoadingData(): Boolean
-    fun isEmptyReviews(): Boolean
-    fun setMovieIdValue(movieId: Int)
+    fun setMovieId(movieId: Int)
     fun getMovieReviews()
   }
 

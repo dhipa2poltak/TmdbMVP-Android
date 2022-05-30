@@ -78,10 +78,8 @@ class MovieReviewsFragment : BaseFragment(), MovieReviewsView {
 
     binding.tvMovieName.text = movieTitle
 
-    if (movieId != -1 && presenter.isEmptyReviews()) {
-      presenter.setMovieIdValue(movieId)
-      presenter.getMovieReviews()
-    }
+    presenter.setMovieId(movieId)
+    presenter.start()
   }
 
   override fun notifyItemInserted(position: Int) {

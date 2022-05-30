@@ -31,7 +31,6 @@ class MovieTrailerActivity : YouTubeBaseActivity(), MovieTrailerView {
 
     movieTrailerComponent.inject(this)
 
-
     super.onCreate(savedInstanceState)
     binding = ActivityMovieTrailerBinding.inflate(layoutInflater)
     setContentView(binding.root)
@@ -39,9 +38,8 @@ class MovieTrailerActivity : YouTubeBaseActivity(), MovieTrailerView {
     if (intent.hasExtra("movie_id")) {
       val movieId = intent.getIntExtra("movie_id", -1)
 
-      if (movieId != -1) {
-        presenter.getMovieTrailer(movieId)
-      }
+      presenter.setMovieId(movieId)
+      presenter.start()
     }
   }
 

@@ -26,14 +26,14 @@ class MoviesByGenreModelImpl(
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .subscribeWith(object : CallbackWrapper<Response<DiscoverMovieByGenreResponse?>, DiscoverMovieByGenreResponse?>() {
-        override fun onSuccessCall(response: DiscoverMovieByGenreResponse?) {
-          response?.results?.let {
-            onSuccess(it, response.page)
+        override fun onSuccessCall(responseBody: DiscoverMovieByGenreResponse?) {
+          responseBody?.results?.let {
+            onSuccess(it, responseBody.page)
           }
         }
 
-        override fun onErrorCall(str: String) {
-          onError(str)
+        override fun onErrorCall(message: String) {
+          onError(message)
         }
 
         override fun onCancelCall() {

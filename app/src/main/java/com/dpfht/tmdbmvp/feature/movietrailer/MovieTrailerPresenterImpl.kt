@@ -11,9 +11,21 @@ class MovieTrailerPresenterImpl(
   private var movieTrailerModel: MovieTrailerModel? = null
 ): MovieTrailerPresenter {
 
-  override fun getMovieTrailer(movieId: Int) {
+  private var _movieId = -1
+
+  override fun setMovieId(movieId: Int) {
+    this._movieId = movieId
+  }
+
+  override fun start() {
+    if (_movieId != -1) {
+      getMovieTrailer()
+    }
+  }
+
+  private fun getMovieTrailer() {
     movieTrailerModel?.getMovieTrailer(
-      movieId, this::onSuccess, this::onError, this::onCancel
+      _movieId, this::onSuccess, this::onError, this::onCancel
     )
   }
 
