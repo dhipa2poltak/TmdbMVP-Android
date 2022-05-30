@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.moviereviews.di
 
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import com.dpfht.tmdbmvp.data.model.Review
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
@@ -15,6 +16,7 @@ import com.dpfht.tmdbmvp.feature.moviereviews.adapter.MovieReviewsAdapter
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineScope
 
 @Module(includes = [FragmentModule::class])
 class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment) {
@@ -34,8 +36,17 @@ class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment)
 
   @Provides
   @FragmentScope
-  fun provideMovieReviewsModel(appRepository: AppRepository): MovieReviewsModel {
-    return MovieReviewsModelImpl(appRepository)
+  fun provideCoroutineScope(): CoroutineScope {
+    return movieReviewsFragment.lifecycleScope
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMovieReviewsModel(
+    appRepository: AppRepository,
+    scope: CoroutineScope
+  ): MovieReviewsModel {
+    return MovieReviewsModelImpl(appRepository, scope)
   }
 
   @Provides

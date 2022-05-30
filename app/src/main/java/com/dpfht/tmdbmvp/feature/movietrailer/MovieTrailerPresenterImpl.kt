@@ -54,6 +54,9 @@ class MovieTrailerPresenterImpl(
   }
 
   override fun onDestroy() {
+    this.movieTrailerModel?.onDestroy()
+
     this.movieTrailerView = null
+    this.movieTrailerModel = null
   }
 }

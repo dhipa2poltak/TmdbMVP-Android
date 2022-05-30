@@ -1,13 +1,18 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre
 
-import com.dpfht.tmdbmvp.data.api.CallbackWrapper
+import com.dpfht.tmdbmvp.data.api.ResultWrapper.GenericError
+import com.dpfht.tmdbmvp.data.api.ResultWrapper.NetworkError
+import com.dpfht.tmdbmvp.data.api.ResultWrapper.Success
 import com.dpfht.tmdbmvp.data.model.Movie
-import com.dpfht.tmdbmvp.data.model.response.DiscoverMovieByGenreResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MoviesByGenreModelImpl(
-  private val appRepository: AppRepository
+  private val appRepository: AppRepository,
+  private val scope: CoroutineScope
 ): MoviesByGenreModel {
 
   override fun getMoviesByGenre(
@@ -17,20 +22,23 @@ class MoviesByGenreModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMoviesByGenre(genreId.toString(), page).enqueue(object : CallbackWrapper<DiscoverMovieByGenreResponse?>() {
-      override fun onSuccessCall(responseBody: DiscoverMovieByGenreResponse?) {
-        responseBody?.results?.let {
-          onSuccess(it, responseBody.page)
+    scope.launch(Dispatchers.Main) {
+      when (val responseBody = appRepository.getMoviesByGenre(genreId.toString(), page)) {  // switch to IO
+        is Success -> {
+          val movies = responseBody.value.results ?: arrayListOf()
+          onSuccess(movies, responseBody.value.page)
+        }
+        is GenericError -> {
+          if (responseBody.code != null && responseBody.error != null) {
+            onError(responseBody.error.statusMessage ?: "")
+          } else {
+            onError("error in conversion")
+          }
+        }
+        is NetworkError -> {
+          onError("error in connection")
         }
       }
-
-      override fun onErrorCall(message: String) {
-        onError(message)
-      }
-
-      override fun onCancelCall() {
-        onCancel()
-      }
-    })
+    }
   }
 }

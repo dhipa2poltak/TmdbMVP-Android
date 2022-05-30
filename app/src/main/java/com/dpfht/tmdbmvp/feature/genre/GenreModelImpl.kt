@@ -1,13 +1,18 @@
 package com.dpfht.tmdbmvp.feature.genre
 
-import com.dpfht.tmdbmvp.data.api.CallbackWrapper
+import com.dpfht.tmdbmvp.data.api.ResultWrapper.GenericError
+import com.dpfht.tmdbmvp.data.api.ResultWrapper.NetworkError
+import com.dpfht.tmdbmvp.data.api.ResultWrapper.Success
 import com.dpfht.tmdbmvp.data.model.Genre
-import com.dpfht.tmdbmvp.data.model.response.GenreResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GenreModelImpl(
-  private val appRepository: AppRepository
+  private val appRepository: AppRepository,
+  private val scope: CoroutineScope
 ): GenreModel {
 
   override fun getMovieGenre(
@@ -15,20 +20,23 @@ class GenreModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieGenre().enqueue(object : CallbackWrapper<GenreResponse?>() {
-      override fun onSuccessCall(responseBody: GenreResponse?) {
-        responseBody?.genres?.let { genres ->
+    scope.launch(Dispatchers.Main) {
+      when (val responseBody = appRepository.getMovieGenre()) {      // switch to IO
+        is Success -> {
+          val genres = responseBody.value.genres ?: arrayListOf()
           onSuccess(genres)
         }
+        is GenericError -> {
+          if (responseBody.code != null && responseBody.error != null) {
+            onError(responseBody.error.statusMessage ?: "")
+          } else {
+            onError("error in conversion")
+          }
+        }
+        is NetworkError -> {
+          onError("error in connection")
+        }
       }
-
-      override fun onErrorCall(message: String) {
-        onError(message)
-      }
-
-      override fun onCancelCall() {
-        onCancel()
-      }
-    })
+    }
   }
 }

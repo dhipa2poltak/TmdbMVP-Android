@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre.di
 
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import com.dpfht.tmdbmvp.data.model.Movie
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
@@ -15,6 +16,7 @@ import com.dpfht.tmdbmvp.feature.moviesbygenre.adapter.MoviesByGenreAdapter
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineScope
 
 @Module(includes = [FragmentModule::class])
 class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragment) {
@@ -34,8 +36,17 @@ class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragme
 
   @Provides
   @FragmentScope
-  fun provideMoviesByGenreModel(appRepository: AppRepository): MoviesByGenreModel {
-    return MoviesByGenreModelImpl(appRepository)
+  fun provideCoroutineScope(): CoroutineScope {
+    return moviesByGenreFragment.lifecycleScope
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMoviesByGenreModel(
+    appRepository: AppRepository,
+    scope: CoroutineScope
+  ): MoviesByGenreModel {
+    return MoviesByGenreModelImpl(appRepository, scope)
   }
 
   @Provides

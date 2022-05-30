@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.feature.genre.di
 
 import android.content.Context
+import androidx.lifecycle.lifecycleScope
 import com.dpfht.tmdbmvp.data.model.Genre
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
@@ -15,6 +16,7 @@ import com.dpfht.tmdbmvp.feature.genre.adapter.GenreAdapter
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineScope
 
 @Module(includes = [FragmentModule::class])
 class GenreModule(private val genreFragment: GenreFragment) {
@@ -34,8 +36,14 @@ class GenreModule(private val genreFragment: GenreFragment) {
 
   @Provides
   @FragmentScope
-  fun provideGenreModel(appRepository: AppRepository): GenreModel {
-    return GenreModelImpl(appRepository)
+  fun provideCoroutineScope(): CoroutineScope {
+    return genreFragment.lifecycleScope
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideGenreModel(appRepository: AppRepository, scope: CoroutineScope): GenreModel {
+    return GenreModelImpl(appRepository, scope)
   }
 
   @Provides
