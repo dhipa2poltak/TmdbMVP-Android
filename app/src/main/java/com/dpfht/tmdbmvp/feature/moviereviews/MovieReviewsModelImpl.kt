@@ -8,7 +8,6 @@ import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsM
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
 
 class MovieReviewsModelImpl(
   private val appRepository: AppRepository,
@@ -25,7 +24,7 @@ class MovieReviewsModelImpl(
     val subs = appRepository.getMovieReviews(movieId, page)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<Response<ReviewResponse?>, ReviewResponse?>() {
+      .subscribeWith(object : CallbackWrapper<ReviewResponse?>() {
         override fun onSuccessCall(responseBody: ReviewResponse?) {
           responseBody?.results?.let {
             onSuccess(it, responseBody.page)

@@ -8,7 +8,6 @@ import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGen
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
 
 class MoviesByGenreModelImpl(
   private val appRepository: AppRepository,
@@ -25,7 +24,7 @@ class MoviesByGenreModelImpl(
     val subs = appRepository.getMoviesByGenre(genreId.toString(), page)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<Response<DiscoverMovieByGenreResponse?>, DiscoverMovieByGenreResponse?>() {
+      .subscribeWith(object : CallbackWrapper<DiscoverMovieByGenreResponse?>() {
         override fun onSuccessCall(responseBody: DiscoverMovieByGenreResponse?) {
           responseBody?.results?.let {
             onSuccess(it, responseBody.page)

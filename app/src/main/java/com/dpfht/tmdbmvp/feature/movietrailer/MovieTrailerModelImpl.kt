@@ -8,7 +8,6 @@ import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerM
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
 
 class MovieTrailerModelImpl(
   private val appRepository: AppRepository,
@@ -24,7 +23,7 @@ class MovieTrailerModelImpl(
     val subs = appRepository.getMovieTrailer(movieId)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<Response<TrailerResponse?>, TrailerResponse?>() {
+      .subscribeWith(object : CallbackWrapper<TrailerResponse?>() {
         override fun onSuccessCall(responseBody: TrailerResponse?) {
           responseBody?.results?.let {
             onSuccess(it)
