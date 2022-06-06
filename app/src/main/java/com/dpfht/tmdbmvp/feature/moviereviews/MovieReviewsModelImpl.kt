@@ -1,44 +1,15 @@
 package com.dpfht.tmdbmvp.feature.moviereviews
 
-import com.dpfht.tmdbmvp.data.api.ResultWrapper.GenericError
-import com.dpfht.tmdbmvp.data.api.ResultWrapper.NetworkError
-import com.dpfht.tmdbmvp.data.api.ResultWrapper.Success
-import com.dpfht.tmdbmvp.data.model.remote.Review
 import com.dpfht.tmdbmvp.data.repository.AppRepository
+import com.dpfht.tmdbmvp.domain.model.GetMovieReviewResult
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MovieReviewsModelImpl(
-  private val appRepository: AppRepository,
-  private val scope: CoroutineScope
+  private val appRepository: AppRepository
 ): MovieReviewsModel {
 
-  override fun getMovieReviews(
-    movieId: Int,
-    page: Int,
-    onSuccess: (List<Review>, Int) -> Unit,
-    onError: (String) -> Unit,
-    onCancel: () -> Unit
-  ) {
-    scope.launch(Dispatchers.Main) {
-      when (val responseBody = appRepository.getMovieReviews(movieId, page)) {    // switch to Dispatchers.IO in Repository
-        is Success -> {
-          val reviews = responseBody.value.results ?: arrayListOf()
-          onSuccess(reviews, responseBody.value.page)
-        }
-        is GenericError -> {
-          if (responseBody.code != null && responseBody.error != null) {
-            onError(responseBody.error.statusMessage ?: "")
-          } else {
-            onError("error in conversion")
-          }
-        }
-        is NetworkError -> {
-          onError("error in connection")
-        }
-      }
-    }
+  override suspend fun getMovieReviews(movieId: Int, page: Int): ModelResultWrapper<GetMovieReviewResult> {
+    return appRepository.getMovieReviews(movieId, page)
   }
 }

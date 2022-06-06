@@ -42,11 +42,8 @@ class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment)
 
   @Provides
   @FragmentScope
-  fun provideMovieReviewsModel(
-    appRepository: AppRepository,
-    scope: CoroutineScope
-  ): MovieReviewsModel {
-    return MovieReviewsModelImpl(appRepository, scope)
+  fun provideMovieReviewsModel(appRepository: AppRepository): MovieReviewsModel {
+    return MovieReviewsModelImpl(appRepository)
   }
 
   @Provides
@@ -60,9 +57,10 @@ class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment)
   fun provideMovieReviewsPresenter(
     movieReviewsView: MovieReviewsView,
     movieReviewsModel: MovieReviewsModel,
-    reviews: ArrayList<Review>
+    reviews: ArrayList<Review>,
+    scope: CoroutineScope
   ): MovieReviewsPresenter {
-    return MovieReviewsPresenterImpl(movieReviewsView, movieReviewsModel, reviews)
+    return MovieReviewsPresenterImpl(movieReviewsView, movieReviewsModel, reviews, scope)
   }
 
   @Provides

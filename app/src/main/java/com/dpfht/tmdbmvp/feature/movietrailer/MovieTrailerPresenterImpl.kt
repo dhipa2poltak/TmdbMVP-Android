@@ -4,11 +4,19 @@ import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerM
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerPresenter
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerView
 import com.dpfht.tmdbmvp.data.model.remote.Trailer
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper.ErrorResult
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper.Success
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class MovieTrailerPresenterImpl(
   private var movieTrailerView: MovieTrailerView? = null,
-  private var movieTrailerModel: MovieTrailerModel? = null
+  private var movieTrailerModel: MovieTrailerModel? = null,
+  private val scope: CoroutineScope
 ): MovieTrailerPresenter {
 
   private var _movieId = -1
@@ -24,12 +32,21 @@ class MovieTrailerPresenterImpl(
   }
 
   private fun getMovieTrailer() {
-    movieTrailerModel?.getMovieTrailer(
-      _movieId, this::onSuccess, this::onError, this::onCancel
-    )
+    scope.launch(Dispatchers.Main) {
+      movieTrailerModel?.let {
+        when (val result = it.getMovieTrailer(_movieId)) {
+          is Success -> {
+            onSuccess(result.value.trailers)
+          }
+          is ErrorResult -> {
+            onError(result.message)
+          }
+        }
+      }
+    }
   }
 
-  fun onSuccess(trailers: List<Trailer>) {
+  private fun onSuccess(trailers: List<Trailer>) {
     var keyVideo = ""
     for (trailer in trailers) {
       if (trailer.site?.lowercase(Locale.ROOT)
@@ -45,16 +62,14 @@ class MovieTrailerPresenterImpl(
     }
   }
 
-  fun onError(message: String) {
+  private fun onError(message: String) {
     movieTrailerView?.showErrorMessage(message)
   }
 
-  fun onCancel() {
-    movieTrailerView?.showCanceledMessage()
-  }
-
   override fun onDestroy() {
-    this.movieTrailerModel?.onDestroy()
+    if (scope.isActive) {
+      scope.cancel()
+    }
 
     this.movieTrailerView = null
     this.movieTrailerModel = null

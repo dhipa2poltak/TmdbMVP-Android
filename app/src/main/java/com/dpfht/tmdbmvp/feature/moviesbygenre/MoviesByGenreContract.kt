@@ -3,7 +3,8 @@ package com.dpfht.tmdbmvp.feature.moviesbygenre
 import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.base.BasePresenter
 import com.dpfht.tmdbmvp.base.BaseView
-import com.dpfht.tmdbmvp.data.model.remote.Movie
+import com.dpfht.tmdbmvp.domain.model.GetMovieByGenreResult
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper
 
 interface MoviesByGenreContract {
 
@@ -19,12 +20,6 @@ interface MoviesByGenreContract {
   }
 
   interface MoviesByGenreModel {
-    fun getMoviesByGenre(
-      genreId: Int,
-      page: Int,
-      onSuccess: (List<Movie>, Int) -> Unit,
-      onError: (String) -> Unit,
-      onCancel: () -> Unit
-    )
+    suspend fun getMoviesByGenre(genreId: Int, page: Int): ModelResultWrapper<GetMovieByGenreResult>
   }
 }

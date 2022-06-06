@@ -5,11 +5,19 @@ import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenrePresenter
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreView
 import com.dpfht.tmdbmvp.data.model.remote.Genre
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper.ErrorResult
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper.Success
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class GenrePresenterImpl(
   private var genreView: GenreView? = null,
   private var genreModel: GenreModel? = null,
-  private val genres: ArrayList<Genre>
+  private val genres: ArrayList<Genre>,
+  private val scope: CoroutineScope
 ): GenrePresenter {
 
   override fun start() {
@@ -20,10 +28,21 @@ class GenrePresenterImpl(
 
   private fun getMovieGenre() {
     genreView?.showLoadingDialog()
-    genreModel?.getMovieGenre(this::onSuccess, this::onError, this::onCancel)
+    scope.launch(Dispatchers.Main) {
+      genreModel?.let {
+        when (val result = it.getMovieGenre()) {
+          is Success -> {
+            onSuccess(result.value.genres)
+          }
+          is ErrorResult -> {
+            onError(result.message)
+          }
+        }
+      }
+    }
   }
 
-  fun onSuccess(genres: List<Genre>) {
+  private fun onSuccess(genres: List<Genre>) {
     for (genre in genres) {
       this.genres.add(genre)
       genreView?.notifyItemInserted(this.genres.size - 1)
@@ -31,14 +50,9 @@ class GenrePresenterImpl(
     genreView?.hideLoadingDialog()
   }
 
-  fun onError(message: String) {
+  private fun onError(message: String) {
     genreView?.hideLoadingDialog()
     genreView?.showErrorMessage(message)
-  }
-
-  fun onCancel() {
-    genreView?.hideLoadingDialog()
-    genreView?.showCanceledMessage()
   }
 
   override fun getNavDirectionsOnClickGenreAt(position: Int): NavDirections {
@@ -50,6 +64,9 @@ class GenrePresenterImpl(
   }
 
   override fun onDestroy() {
+    if (scope.isActive) {
+      scope.cancel()
+    }
     this.genreView = null
   }
 }

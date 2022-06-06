@@ -1,21 +1,21 @@
 package com.dpfht.tmdbmvp.data.repository
 
-import com.dpfht.tmdbmvp.data.api.ResultWrapper
-import com.dpfht.tmdbmvp.data.model.remote.response.DiscoverMovieByGenreResponse
-import com.dpfht.tmdbmvp.data.model.remote.response.GenreResponse
-import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
-import com.dpfht.tmdbmvp.data.model.remote.response.ReviewResponse
-import com.dpfht.tmdbmvp.data.model.remote.response.TrailerResponse
+import com.dpfht.tmdbmvp.domain.model.GetMovieByGenreResult
+import com.dpfht.tmdbmvp.domain.model.GetMovieDetailsResult
+import com.dpfht.tmdbmvp.domain.model.GetMovieGenreResult
+import com.dpfht.tmdbmvp.domain.model.GetMovieReviewResult
+import com.dpfht.tmdbmvp.domain.model.GetMovieTrailerResult
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper
 
 interface AppRepository {
 
-  suspend fun getMovieGenre(): ResultWrapper<GenreResponse>
+  suspend fun getMovieGenre(): ModelResultWrapper<GetMovieGenreResult>
 
-  suspend fun getMoviesByGenre(genreId: String, page: Int): ResultWrapper<DiscoverMovieByGenreResponse>
+  suspend fun getMoviesByGenre(genreId: String, page: Int): ModelResultWrapper<GetMovieByGenreResult>
 
-  suspend fun getMovieDetail(movieId: Int): ResultWrapper<MovieDetailsResponse>
+  suspend fun getMovieDetail(movieId: Int): ModelResultWrapper<GetMovieDetailsResult>
 
-  suspend fun getMovieReviews(movieId: Int, page: Int): ResultWrapper<ReviewResponse>
+  suspend fun getMovieReviews(movieId: Int, page: Int): ModelResultWrapper<GetMovieReviewResult>
 
-  suspend fun getMovieTrailer(movieId: Int): ResultWrapper<TrailerResponse>
+  suspend fun getMovieTrailer(movieId: Int): ModelResultWrapper<GetMovieTrailerResult>
 }

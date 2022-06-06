@@ -2,14 +2,21 @@ package com.dpfht.tmdbmvp.feature.moviedetails
 
 import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.Config
-import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper.ErrorResult
+import com.dpfht.tmdbmvp.domain.model.ModelResultWrapper.Success
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsPresenter
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class MovieDetailsPresenterImpl(
   private var movieDetailsView: MovieDetailsView? = null,
-  private var movieDetailsModel: MovieDetailsModel? = null
+  private var movieDetailsModel: MovieDetailsModel? = null,
+  private val scope: CoroutineScope
 ): MovieDetailsPresenter {
 
   private var _movieId = -1
@@ -35,20 +42,29 @@ class MovieDetailsPresenterImpl(
 
   private fun getMovieDetails() {
     movieDetailsView?.showLoadingDialog()
-    movieDetailsModel?.getMovieDetails(
-      _movieId, this::onSuccess, this::onError, this::onCancel
-    )
+    scope.launch(Dispatchers.Main) {
+      movieDetailsModel?.let {
+        when (val result = it.getMovieDetails(_movieId)) {
+          is Success -> {
+            onSuccess(result.value.movieId, result.value.title, result.value.overview, result.value.posterPath)
+          }
+          is ErrorResult -> {
+            onError(result.message)
+          }
+        }
+      }
+    }
   }
 
-  fun onSuccess(response: MovieDetailsResponse) {
+  private fun onSuccess(pMovieId: Int, pTitle: String, pOverview: String, pPosterPath: String) {
     imageUrl = ""
-    if (response.posterPath != null) {
-      imageUrl = Config.IMAGE_URL_BASE_PATH + response.posterPath
+    if (pPosterPath.isNotEmpty()) {
+      imageUrl = Config.IMAGE_URL_BASE_PATH + pPosterPath
     }
 
-    _movieId = response.id
-    title = response.title ?: ""
-    overview = response.overview ?: ""
+    _movieId = pMovieId
+    title = pTitle
+    overview = pOverview
     movieDetailsView?.showMovieDetails(
       title,
       overview,
@@ -57,14 +73,9 @@ class MovieDetailsPresenterImpl(
     movieDetailsView?.hideLoadingDialog()
   }
 
-  fun onError(message: String) {
+  private fun onError(message: String) {
     movieDetailsView?.hideLoadingDialog()
     movieDetailsView?.showErrorMessage(message)
-  }
-
-  fun onCancel() {
-    movieDetailsView?.hideLoadingDialog()
-    movieDetailsView?.showCanceledMessage()
   }
 
   override fun getNavDirectionsToMovieReviews(): NavDirections {
@@ -72,6 +83,9 @@ class MovieDetailsPresenterImpl(
   }
 
   override fun onDestroy() {
+    if (scope.isActive) {
+      scope.cancel()
+    }
     this.movieDetailsView = null
   }
 }

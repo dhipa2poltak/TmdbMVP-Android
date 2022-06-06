@@ -40,19 +40,17 @@ class MovieDetailsModule(private val movieDetailsFragment: MovieDetailsFragment)
 
   @Provides
   @FragmentScope
-  fun provideMovieDetailsModel(
-    appRepository: AppRepository,
-    scope: CoroutineScope
-  ): MovieDetailsModel {
-    return MovieDetailsModelImpl(appRepository, scope)
+  fun provideMovieDetailsModel(appRepository: AppRepository): MovieDetailsModel {
+    return MovieDetailsModelImpl(appRepository)
   }
 
   @Provides
   @FragmentScope
   fun provideMovieDetailsPresenter(
     movieDetailsView: MovieDetailsView,
-    movieDetailsModel: MovieDetailsModel
+    movieDetailsModel: MovieDetailsModel,
+    scope: CoroutineScope
   ): MovieDetailsPresenter {
-    return MovieDetailsPresenterImpl(movieDetailsView, movieDetailsModel)
+    return MovieDetailsPresenterImpl(movieDetailsView, movieDetailsModel, scope)
   }
 }

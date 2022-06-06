@@ -36,16 +36,17 @@ class MovieTrailerModule(private val movieTrailerActivity: MovieTrailerActivity)
 
   @Provides
   @ActivityScope
-  fun provideMovieTrailerModel(appRepository: AppRepository, scope: CoroutineScope): MovieTrailerModel {
-    return MovieTrailerModelImpl(appRepository, scope)
+  fun provideMovieTrailerModel(appRepository: AppRepository): MovieTrailerModel {
+    return MovieTrailerModelImpl(appRepository)
   }
 
   @Provides
   @ActivityScope
   fun provideMovieTrailerPresenter(
     movieTrailerView: MovieTrailerView,
-    movieTrailerModel: MovieTrailerModel
+    movieTrailerModel: MovieTrailerModel,
+    scope: CoroutineScope
   ): MovieTrailerPresenter {
-    return MovieTrailerPresenterImpl(movieTrailerView, movieTrailerModel)
+    return MovieTrailerPresenterImpl(movieTrailerView, movieTrailerModel, scope)
   }
 }

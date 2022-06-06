@@ -42,11 +42,8 @@ class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragme
 
   @Provides
   @FragmentScope
-  fun provideMoviesByGenreModel(
-    appRepository: AppRepository,
-    scope: CoroutineScope
-  ): MoviesByGenreModel {
-    return MoviesByGenreModelImpl(appRepository, scope)
+  fun provideMoviesByGenreModel(appRepository: AppRepository): MoviesByGenreModel {
+    return MoviesByGenreModelImpl(appRepository)
   }
 
   @Provides
@@ -60,9 +57,10 @@ class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragme
   fun provideMoviesByGenrePresenter(
     moviesByGenreView: MoviesByGenreView,
     moviesByGenreModel: MoviesByGenreModel,
-    movies: ArrayList<Movie>
+    movies: ArrayList<Movie>,
+    scope: CoroutineScope
   ): MoviesByGenrePresenter {
-    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel, movies)
+    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel, movies, scope)
   }
 
   @Provides
