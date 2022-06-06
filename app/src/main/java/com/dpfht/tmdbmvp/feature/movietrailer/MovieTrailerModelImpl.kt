@@ -3,7 +3,7 @@ package com.dpfht.tmdbmvp.feature.movietrailer
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.GenericError
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.NetworkError
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.Success
-import com.dpfht.tmdbmvp.data.model.Trailer
+import com.dpfht.tmdbmvp.data.model.remote.Trailer
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerModel
 import kotlinx.coroutines.CoroutineScope

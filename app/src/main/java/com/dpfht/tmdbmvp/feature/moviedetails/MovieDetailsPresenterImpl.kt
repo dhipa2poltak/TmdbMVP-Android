@@ -2,7 +2,7 @@ package com.dpfht.tmdbmvp.feature.moviedetails
 
 import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.Config
-import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsPresenter
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsView

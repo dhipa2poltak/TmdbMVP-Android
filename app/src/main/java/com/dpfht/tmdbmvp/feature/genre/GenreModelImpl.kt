@@ -3,7 +3,7 @@ package com.dpfht.tmdbmvp.feature.genre
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.GenericError
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.NetworkError
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.Success
-import com.dpfht.tmdbmvp.data.model.Genre
+import com.dpfht.tmdbmvp.data.model.remote.Genre
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 import kotlinx.coroutines.CoroutineScope

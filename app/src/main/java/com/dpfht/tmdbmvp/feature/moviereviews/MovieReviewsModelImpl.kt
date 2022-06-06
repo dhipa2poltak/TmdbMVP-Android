@@ -3,7 +3,7 @@ package com.dpfht.tmdbmvp.feature.moviereviews
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.GenericError
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.NetworkError
 import com.dpfht.tmdbmvp.data.api.ResultWrapper.Success
-import com.dpfht.tmdbmvp.data.model.Review
+import com.dpfht.tmdbmvp.data.model.remote.Review
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.moviereviews.MovieReviewsContract.MovieReviewsModel
 import kotlinx.coroutines.CoroutineScope

@@ -2,7 +2,7 @@ package com.dpfht.tmdbmvp.feature.genre.di
 
 import android.content.Context
 import androidx.lifecycle.lifecycleScope
-import com.dpfht.tmdbmvp.data.model.Genre
+import com.dpfht.tmdbmvp.data.model.remote.Genre
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope

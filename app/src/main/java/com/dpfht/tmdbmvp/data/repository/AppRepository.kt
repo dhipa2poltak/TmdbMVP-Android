@@ -1,11 +1,11 @@
 package com.dpfht.tmdbmvp.data.repository
 
 import com.dpfht.tmdbmvp.data.api.ResultWrapper
-import com.dpfht.tmdbmvp.data.model.response.DiscoverMovieByGenreResponse
-import com.dpfht.tmdbmvp.data.model.response.GenreResponse
-import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
-import com.dpfht.tmdbmvp.data.model.response.ReviewResponse
-import com.dpfht.tmdbmvp.data.model.response.TrailerResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.DiscoverMovieByGenreResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.GenreResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.ReviewResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.TrailerResponse
 
 interface AppRepository {
 

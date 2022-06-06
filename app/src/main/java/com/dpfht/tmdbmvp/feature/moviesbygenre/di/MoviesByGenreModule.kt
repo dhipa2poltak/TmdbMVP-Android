@@ -2,7 +2,7 @@ package com.dpfht.tmdbmvp.feature.moviesbygenre.di
 
 import android.content.Context
 import androidx.lifecycle.lifecycleScope
-import com.dpfht.tmdbmvp.data.model.Movie
+import com.dpfht.tmdbmvp.data.model.remote.Movie
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope
