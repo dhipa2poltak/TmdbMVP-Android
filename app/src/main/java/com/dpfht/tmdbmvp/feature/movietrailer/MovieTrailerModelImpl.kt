@@ -1,8 +1,8 @@
 package com.dpfht.tmdbmvp.feature.movietrailer
 
 import com.dpfht.tmdbmvp.data.api.CallbackWrapper
-import com.dpfht.tmdbmvp.data.model.Trailer
-import com.dpfht.tmdbmvp.data.model.response.TrailerResponse
+import com.dpfht.tmdbmvp.data.model.remote.Trailer
+import com.dpfht.tmdbmvp.data.model.remote.response.TrailerResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.movietrailer.MovieTrailerContract.MovieTrailerModel
 import io.reactivex.android.schedulers.AndroidSchedulers

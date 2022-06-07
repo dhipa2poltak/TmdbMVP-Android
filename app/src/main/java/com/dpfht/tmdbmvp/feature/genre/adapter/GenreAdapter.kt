@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dpfht.tmdbmvp.databinding.RowGenreBinding
-import com.dpfht.tmdbmvp.data.model.Genre
+import com.dpfht.tmdbmvp.data.model.remote.Genre
 
 class GenreAdapter(private val genres: ArrayList<Genre>): RecyclerView.Adapter<GenreAdapter.GenreHolder>() {
 

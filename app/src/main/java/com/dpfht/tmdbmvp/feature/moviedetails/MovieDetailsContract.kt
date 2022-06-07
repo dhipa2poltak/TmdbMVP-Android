@@ -3,7 +3,7 @@ package com.dpfht.tmdbmvp.feature.moviedetails
 import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.base.BasePresenter
 import com.dpfht.tmdbmvp.base.BaseView
-import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
 
 interface MovieDetailsContract {
 
