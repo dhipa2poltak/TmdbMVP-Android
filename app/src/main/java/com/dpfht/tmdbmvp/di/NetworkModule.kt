@@ -2,14 +2,13 @@ package com.dpfht.tmdbmvp.di
 
 import com.dpfht.tmdbmvp.BuildConfig
 import com.dpfht.tmdbmvp.Config
+import com.dpfht.tmdbmvp.data.api.AuthInterceptor
 import com.dpfht.tmdbmvp.data.api.RestService
+import com.dpfht.tmdbmvp.data.api.UnsafeOkHttpClient
 import dagger.Module
 import dagger.Provides
 import okhttp3.CertificatePinner
-import okhttp3.Interceptor
-import okhttp3.Interceptor.Chain
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -18,59 +17,6 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-
-  @Singleton
-  @Provides
-  fun provideRestService(retrofit: Retrofit): RestService {
-    return retrofit.create(RestService::class.java)
-  }
-
-  @Singleton
-  @Provides
-  fun provideRetrofit(client: OkHttpClient): Retrofit {
-    return Retrofit.Builder()
-      .baseUrl(Config.API_BASE_URL)
-      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-      .addConverterFactory(GsonConverterFactory.create())
-      .client(client)
-      .build()
-  }
-
-  @Singleton
-  @Provides
-  fun provideClient(
-    certificatePinner: CertificatePinner,
-    httpLoggingInterceptor: HttpLoggingInterceptor
-  ): OkHttpClient {
-    val httpClientBuilder = OkHttpClient()
-      .newBuilder()
-      .certificatePinner(certificatePinner)
-
-    if (!httpClientBuilder.interceptors().contains(httpLoggingInterceptor) && BuildConfig.DEBUG) {
-      httpClientBuilder.addInterceptor(httpLoggingInterceptor)
-    }
-
-    httpClientBuilder.addInterceptor(object : Interceptor {
-      override fun intercept(chain: Chain): Response {
-        val original = chain.request()
-        val originalHttpUrl = original.url
-
-        val url = originalHttpUrl.newBuilder()
-          .addQueryParameter("api_key", Config.API_KEY)
-          .build()
-
-        val requestBuilder = original.newBuilder()
-          .url(url)
-          .method(original.method, original.body)
-
-        val request = requestBuilder.build()
-
-        return chain.proceed(request)
-      }
-    })
-
-    return httpClientBuilder.build()
-  }
 
   @Singleton
   @Provides
@@ -89,5 +35,38 @@ class NetworkModule {
     val httpLoggingInterceptor = HttpLoggingInterceptor()
     httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
     return httpLoggingInterceptor
+  }
+
+  @Provides
+  @Singleton
+  fun provideClient(certificatePinner: CertificatePinner): OkHttpClient {
+    if (BuildConfig.DEBUG) {
+      return UnsafeOkHttpClient.getUnsafeOkHttpClient()
+    }
+
+    val httpClientBuilder = OkHttpClient()
+      .newBuilder()
+      .certificatePinner(certificatePinner)
+
+    httpClientBuilder.addInterceptor(AuthInterceptor())
+
+    return httpClientBuilder.build()
+  }
+
+  @Singleton
+  @Provides
+  fun provideRetrofit(client: OkHttpClient): Retrofit {
+    return Retrofit.Builder()
+      .baseUrl(Config.API_BASE_URL)
+      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+      .addConverterFactory(GsonConverterFactory.create())
+      .client(client)
+      .build()
+  }
+
+  @Singleton
+  @Provides
+  fun provideRestService(retrofit: Retrofit): RestService {
+    return retrofit.create(RestService::class.java)
   }
 }
