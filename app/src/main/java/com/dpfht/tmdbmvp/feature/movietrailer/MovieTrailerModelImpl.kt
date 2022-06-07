@@ -16,9 +16,9 @@ class MovieTrailerModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieTrailer(movieId).enqueue(object : CallbackWrapper<TrailerResponse?>() {
-      override fun onSuccessCall(responseBody: TrailerResponse?) {
-        responseBody?.results?.let {
+    appRepository.getMovieTrailer(movieId).enqueue(object : CallbackWrapper<TrailerResponse>() {
+      override fun onSuccessCall(responseBody: TrailerResponse) {
+        responseBody.results?.let {
           onSuccess(it)
         }
       }

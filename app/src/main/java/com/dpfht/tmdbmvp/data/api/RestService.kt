@@ -13,25 +13,25 @@ import retrofit2.http.Query
 interface RestService {
 
     @GET("genre/movie/list")
-    fun getMovieGenre():  Call<GenreResponse?>
+    fun getMovieGenre():  Call<GenreResponse>
 
     @GET("discover/movie")
     fun getMoviesByGenre(
         @Query("with_genres") genreId: String,
-        @Query("page") page: Int): Call<DiscoverMovieByGenreResponse?>
+        @Query("page") page: Int): Call<DiscoverMovieByGenreResponse>
 
     @GET("movie/{movie_id}")
     fun getMovieDetail(
-        @Path("movie_id") movieId: Int): Call<MovieDetailsResponse?>
+        @Path("movie_id") movieId: Int): Call<MovieDetailsResponse>
 
     @GET("movie/{movie_id}/reviews")
     fun getMovieReviews(
         @Path("movie_id") movieId: Int,
         @Query("page") page: Int,
-        @Query("language") language: String = "en-US"): Call<ReviewResponse?>
+        @Query("language") language: String = "en-US"): Call<ReviewResponse>
 
     @GET("movie/{movie_id}/videos")
     fun getMovieTrailers(
         @Path("movie_id") movieId: Int,
-        @Query("language") language: String = "en-US"): Call<TrailerResponse?>
+        @Query("language") language: String = "en-US"): Call<TrailerResponse>
 }

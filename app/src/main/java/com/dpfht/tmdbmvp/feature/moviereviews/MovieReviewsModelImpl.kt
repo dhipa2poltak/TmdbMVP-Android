@@ -17,9 +17,9 @@ class MovieReviewsModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieReviews(movieId, page).enqueue(object : CallbackWrapper<ReviewResponse?>() {
-      override fun onSuccessCall(responseBody: ReviewResponse?) {
-        responseBody?.results?.let {
+    appRepository.getMovieReviews(movieId, page).enqueue(object : CallbackWrapper<ReviewResponse>() {
+      override fun onSuccessCall(responseBody: ReviewResponse) {
+        responseBody.results?.let {
           onSuccess(it, responseBody.page)
         }
       }

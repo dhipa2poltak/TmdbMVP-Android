@@ -10,23 +10,23 @@ import retrofit2.Call
 
 class AppRepositoryImpl(private val restService: RestService): AppRepository {
 
-  override fun getMovieGenre():  Call<GenreResponse?> {
+  override fun getMovieGenre():  Call<GenreResponse> {
     return restService.getMovieGenre()
   }
 
-  override fun getMoviesByGenre(genreId: String, page: Int): Call<DiscoverMovieByGenreResponse?> {
+  override fun getMoviesByGenre(genreId: String, page: Int): Call<DiscoverMovieByGenreResponse> {
     return restService.getMoviesByGenre(genreId, page)
   }
 
-  override fun getMovieDetail(movieId: Int): Call<MovieDetailsResponse?> {
+  override fun getMovieDetail(movieId: Int): Call<MovieDetailsResponse> {
     return restService.getMovieDetail(movieId)
   }
 
-  override fun getMovieReviews(movieId: Int, page: Int): Call<ReviewResponse?> {
+  override fun getMovieReviews(movieId: Int, page: Int): Call<ReviewResponse> {
     return restService.getMovieReviews(movieId, page)
   }
 
-  override fun getMovieTrailer(movieId: Int): Call<TrailerResponse?> {
+  override fun getMovieTrailer(movieId: Int): Call<TrailerResponse> {
     return restService.getMovieTrailers(movieId)
   }
 }

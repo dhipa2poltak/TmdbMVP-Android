@@ -15,11 +15,9 @@ class MovieDetailsModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieDetail(movieId).enqueue(object : CallbackWrapper<MovieDetailsResponse?>() {
-      override fun onSuccessCall(responseBody: MovieDetailsResponse?) {
-        responseBody?.let {
-          onSuccess(it)
-        }
+    appRepository.getMovieDetail(movieId).enqueue(object : CallbackWrapper<MovieDetailsResponse>() {
+      override fun onSuccessCall(responseBody: MovieDetailsResponse) {
+        onSuccess(responseBody)
       }
 
       override fun onErrorCall(message: String) {

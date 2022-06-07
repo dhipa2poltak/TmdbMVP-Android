@@ -15,9 +15,9 @@ class GenreModelImpl(
     onError: (String) -> Unit,
     onCancel: () -> Unit
   ) {
-    appRepository.getMovieGenre().enqueue(object : CallbackWrapper<GenreResponse?>() {
-      override fun onSuccessCall(responseBody: GenreResponse?) {
-        responseBody?.genres?.let { genres ->
+    appRepository.getMovieGenre().enqueue(object : CallbackWrapper<GenreResponse>() {
+      override fun onSuccessCall(responseBody: GenreResponse) {
+        responseBody.genres?.let { genres ->
           onSuccess(genres)
         }
       }

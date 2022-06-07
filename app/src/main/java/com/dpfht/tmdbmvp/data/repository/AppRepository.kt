@@ -9,13 +9,13 @@ import retrofit2.Call
 
 interface AppRepository {
 
-  fun getMovieGenre():  Call<GenreResponse?>
+  fun getMovieGenre():  Call<GenreResponse>
 
-  fun getMoviesByGenre(genreId: String, page: Int): Call<DiscoverMovieByGenreResponse?>
+  fun getMoviesByGenre(genreId: String, page: Int): Call<DiscoverMovieByGenreResponse>
 
-  fun getMovieDetail(movieId: Int): Call<MovieDetailsResponse?>
+  fun getMovieDetail(movieId: Int): Call<MovieDetailsResponse>
 
-  fun getMovieReviews(movieId: Int, page: Int): Call<ReviewResponse?>
+  fun getMovieReviews(movieId: Int, page: Int): Call<ReviewResponse>
 
-  fun getMovieTrailer(movieId: Int): Call<TrailerResponse?>
+  fun getMovieTrailer(movieId: Int): Call<TrailerResponse>
 }
