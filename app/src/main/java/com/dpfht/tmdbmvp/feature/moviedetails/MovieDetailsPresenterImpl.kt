@@ -5,7 +5,7 @@ import com.dpfht.tmdbmvp.Config
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsPresenter
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsView
-import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
 
 class MovieDetailsPresenterImpl(
   private var movieDetailsView: MovieDetailsView? = null,

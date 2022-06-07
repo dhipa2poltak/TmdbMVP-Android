@@ -1,8 +1,8 @@
 package com.dpfht.tmdbmvp.feature.genre
 
 import com.dpfht.tmdbmvp.data.api.CallbackWrapper
-import com.dpfht.tmdbmvp.data.model.Genre
-import com.dpfht.tmdbmvp.data.model.response.GenreResponse
+import com.dpfht.tmdbmvp.data.model.remote.Genre
+import com.dpfht.tmdbmvp.data.model.remote.response.GenreResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 import io.reactivex.android.schedulers.AndroidSchedulers

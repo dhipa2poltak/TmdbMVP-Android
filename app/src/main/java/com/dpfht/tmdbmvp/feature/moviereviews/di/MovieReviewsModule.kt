@@ -1,7 +1,7 @@
 package com.dpfht.tmdbmvp.feature.moviereviews.di
 
 import android.content.Context
-import com.dpfht.tmdbmvp.data.model.Review
+import com.dpfht.tmdbmvp.data.model.remote.Review
 import com.dpfht.tmdbmvp.di.ActivityContext
 import com.dpfht.tmdbmvp.di.FragmentModule
 import com.dpfht.tmdbmvp.di.FragmentScope
