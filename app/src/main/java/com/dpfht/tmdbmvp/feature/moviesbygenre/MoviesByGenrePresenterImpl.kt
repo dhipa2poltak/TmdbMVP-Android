@@ -15,6 +15,7 @@ class MoviesByGenrePresenterImpl(
   private var _genreId = -1
   private var page = 0
   private var _isLoadingData = false
+  private var isNextEmptyDataResponse = false
 
   override fun start() {
     if (_genreId != -1 && movies.isEmpty()) {
@@ -29,8 +30,11 @@ class MoviesByGenrePresenterImpl(
   }
 
   override fun getMoviesByGenre() {
+    if (isNextEmptyDataResponse) return
+
     moviesByGenreView?.showLoadingDialog()
     _isLoadingData = true
+
     moviesByGenreModel?.getMoviesByGenre(
       _genreId, page + 1, this::onSuccess, this::onError, this::onCancel
     )
@@ -44,6 +48,8 @@ class MoviesByGenrePresenterImpl(
         this.movies.add(movie)
         moviesByGenreView?.notifyItemInserted(this.movies.size - 1)
       }
+    } else {
+      isNextEmptyDataResponse = true
     }
 
     moviesByGenreView?.hideLoadingDialog()
