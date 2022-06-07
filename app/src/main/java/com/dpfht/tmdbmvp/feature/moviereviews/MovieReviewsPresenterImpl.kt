@@ -14,6 +14,7 @@ class MovieReviewsPresenterImpl(
   private var _isLoadingData = false
   private var _movieId = -1
   private var page = 0
+  private var isNextEmptyDataResponse = false
 
   override fun start() {
     if (_movieId != -1 && reviews.isEmpty()) {
@@ -28,6 +29,8 @@ class MovieReviewsPresenterImpl(
   }
 
   override fun getMovieReviews() {
+    if (isNextEmptyDataResponse) return
+
     movieReviewsView?.showLoadingDialog()
     _isLoadingData = true
     movieReviewsModel?.getMovieReviews(
@@ -43,6 +46,8 @@ class MovieReviewsPresenterImpl(
         this.reviews.add(review)
         movieReviewsView?.notifyItemInserted(this.reviews.size - 1)
       }
+    } else {
+      isNextEmptyDataResponse = true
     }
 
     movieReviewsView?.hideLoadingDialog()
