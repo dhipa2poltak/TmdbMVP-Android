@@ -23,9 +23,9 @@ class MovieTrailerModelImpl(
     val subs = appRepository.getMovieTrailer(movieId)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<TrailerResponse?>() {
-        override fun onSuccessCall(responseBody: TrailerResponse?) {
-          responseBody?.results?.let {
+      .subscribeWith(object : CallbackWrapper<TrailerResponse>() {
+        override fun onSuccessCall(responseBody: TrailerResponse) {
+          responseBody.results?.let {
             onSuccess(it)
           }
         }

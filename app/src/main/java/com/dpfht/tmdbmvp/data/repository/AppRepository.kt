@@ -9,13 +9,13 @@ import io.reactivex.Observable
 
 interface AppRepository {
 
-  fun getMovieGenre():  Observable<GenreResponse?>
+  fun getMovieGenre():  Observable<GenreResponse>
 
-  fun getMoviesByGenre(genreId: String, page: Int): Observable<DiscoverMovieByGenreResponse?>
+  fun getMoviesByGenre(genreId: String, page: Int): Observable<DiscoverMovieByGenreResponse>
 
-  fun getMovieDetail(movieId: Int): Observable<MovieDetailsResponse?>
+  fun getMovieDetail(movieId: Int): Observable<MovieDetailsResponse>
 
-  fun getMovieReviews(movieId: Int, page: Int): Observable<ReviewResponse?>
+  fun getMovieReviews(movieId: Int, page: Int): Observable<ReviewResponse>
 
-  fun getMovieTrailer(movieId: Int): Observable<TrailerResponse?>
+  fun getMovieTrailer(movieId: Int): Observable<TrailerResponse>
 }

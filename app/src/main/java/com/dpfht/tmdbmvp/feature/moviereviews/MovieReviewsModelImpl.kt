@@ -24,9 +24,9 @@ class MovieReviewsModelImpl(
     val subs = appRepository.getMovieReviews(movieId, page)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<ReviewResponse?>() {
-        override fun onSuccessCall(responseBody: ReviewResponse?) {
-          responseBody?.results?.let {
+      .subscribeWith(object : CallbackWrapper<ReviewResponse>() {
+        override fun onSuccessCall(responseBody: ReviewResponse) {
+          responseBody.results?.let {
             onSuccess(it, responseBody.page)
           }
         }

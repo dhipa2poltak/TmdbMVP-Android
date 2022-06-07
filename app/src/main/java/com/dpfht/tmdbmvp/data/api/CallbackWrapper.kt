@@ -5,14 +5,10 @@ import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
 import java.io.IOException
 
-abstract class CallbackWrapper<T>: DisposableObserver<T>() {
+abstract class CallbackWrapper<T: Any>: DisposableObserver<T>() {
 
   override fun onNext(responseBody: T) {
-    if (responseBody != null) {
-      onSuccessCall(responseBody)
-    } else {
-      onErrorCall("null response body")
-    }
+    onSuccessCall(responseBody)
   }
 
   override fun onError(e: Throwable) {

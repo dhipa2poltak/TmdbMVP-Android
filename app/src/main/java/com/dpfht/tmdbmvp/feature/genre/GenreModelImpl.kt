@@ -22,9 +22,9 @@ class GenreModelImpl(
     val subs = appRepository.getMovieGenre()
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<GenreResponse?>() {
-        override fun onSuccessCall(responseBody: GenreResponse?) {
-          responseBody?.genres?.let {
+      .subscribeWith(object : CallbackWrapper<GenreResponse>() {
+        override fun onSuccessCall(responseBody: GenreResponse) {
+          responseBody.genres?.let {
             onSuccess(it)
           }
         }

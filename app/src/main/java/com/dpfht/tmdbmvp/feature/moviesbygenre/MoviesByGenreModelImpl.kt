@@ -24,9 +24,9 @@ class MoviesByGenreModelImpl(
     val subs = appRepository.getMoviesByGenre(genreId.toString(), page)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<DiscoverMovieByGenreResponse?>() {
-        override fun onSuccessCall(responseBody: DiscoverMovieByGenreResponse?) {
-          responseBody?.results?.let {
+      .subscribeWith(object : CallbackWrapper<DiscoverMovieByGenreResponse>() {
+        override fun onSuccessCall(responseBody: DiscoverMovieByGenreResponse) {
+          responseBody.results?.let {
             onSuccess(it, responseBody.page)
           }
         }

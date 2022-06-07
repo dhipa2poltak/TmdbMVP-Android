@@ -22,11 +22,9 @@ class MovieDetailsModelImpl(
     val subs = appRepository.getMovieDetail(movieId)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<MovieDetailsResponse?>() {
-        override fun onSuccessCall(responseBody: MovieDetailsResponse?) {
-          responseBody?.let {
-            onSuccess(it)
-          }
+      .subscribeWith(object : CallbackWrapper<MovieDetailsResponse>() {
+        override fun onSuccessCall(responseBody: MovieDetailsResponse) {
+          onSuccess(responseBody)
         }
 
         override fun onErrorCall(message: String) {
