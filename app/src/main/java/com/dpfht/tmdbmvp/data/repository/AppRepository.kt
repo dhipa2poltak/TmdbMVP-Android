@@ -10,13 +10,13 @@ import retrofit2.Response
 
 interface AppRepository {
 
-  fun getMovieGenre():  Observable<Response<GenreResponse?>>
+  fun getMovieGenre():  Observable<Response<GenreResponse>>
 
-  fun getMoviesByGenre(genreId: String, page: Int): Observable<Response<DiscoverMovieByGenreResponse?>>
+  fun getMoviesByGenre(genreId: String, page: Int): Observable<Response<DiscoverMovieByGenreResponse>>
 
-  fun getMovieDetail(movieId: Int): Observable<Response<MovieDetailsResponse?>>
+  fun getMovieDetail(movieId: Int): Observable<Response<MovieDetailsResponse>>
 
-  fun getMovieReviews(movieId: Int, page: Int): Observable<Response<ReviewResponse?>>
+  fun getMovieReviews(movieId: Int, page: Int): Observable<Response<ReviewResponse>>
 
-  fun getMovieTrailer(movieId: Int): Observable<Response<TrailerResponse?>>
+  fun getMovieTrailer(movieId: Int): Observable<Response<TrailerResponse>>
 }
