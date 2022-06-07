@@ -35,11 +35,14 @@ class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragme
 
   @Provides
   @FragmentScope
-  fun provideMoviesByGenreModel(
-    appRepository: AppRepository,
-    compositeDisposable: CompositeDisposable
-  ): MoviesByGenreModel {
-    return MoviesByGenreModelImpl(appRepository, compositeDisposable)
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMoviesByGenreModel(appRepository: AppRepository): MoviesByGenreModel {
+    return MoviesByGenreModelImpl(appRepository)
   }
 
   @Provides
@@ -53,20 +56,15 @@ class MoviesByGenreModule(private val moviesByGenreFragment: MoviesByGenreFragme
   fun provideMoviesByGenrePresenter(
     moviesByGenreView: MoviesByGenreView,
     moviesByGenreModel: MoviesByGenreModel,
-    movies: ArrayList<Movie>
+    movies: ArrayList<Movie>,
+    compositeDisposable: CompositeDisposable
   ): MoviesByGenrePresenter {
-    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel, movies)
+    return MoviesByGenrePresenterImpl(moviesByGenreView, moviesByGenreModel, movies, compositeDisposable)
   }
 
   @Provides
   @FragmentScope
   fun provideMoviesByGenreAdapter(movies: ArrayList<Movie>): MoviesByGenreAdapter {
     return MoviesByGenreAdapter(movies)
-  }
-
-  @Provides
-  @FragmentScope
-  fun provideCompositeDisposable(): CompositeDisposable {
-    return CompositeDisposable()
   }
 }

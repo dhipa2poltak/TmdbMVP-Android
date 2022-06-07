@@ -1,49 +1,15 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre
 
-import com.dpfht.tmdbmvp.data.api.CallbackWrapper
-import com.dpfht.tmdbmvp.data.model.remote.Movie
-import com.dpfht.tmdbmvp.data.model.remote.response.DiscoverMovieByGenreResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
+import com.dpfht.tmdbmvp.domain.model.GetMovieByGenreResult
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Observable
 
 class MoviesByGenreModelImpl(
-  private val appRepository: AppRepository,
-  private val compositeDisposable: CompositeDisposable
+  private val appRepository: AppRepository
 ): MoviesByGenreModel {
 
-  override fun getMoviesByGenre(
-    genreId: Int,
-    page: Int,
-    onSuccess: (List<Movie>, Int) -> Unit,
-    onError: (String) -> Unit,
-    onCancel: () -> Unit
-  ) {
-    val subs = appRepository.getMoviesByGenre(genreId.toString(), page)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribeWith(object : CallbackWrapper<DiscoverMovieByGenreResponse>() {
-        override fun onSuccessCall(responseBody: DiscoverMovieByGenreResponse) {
-          responseBody.results?.let {
-            onSuccess(it, responseBody.page)
-          }
-        }
-
-        override fun onErrorCall(message: String) {
-          onError(message)
-        }
-
-        override fun onCancelCall() {
-          onCancel()
-        }
-      })
-
-    compositeDisposable.add(subs)
-  }
-
-  override fun onDestroy() {
-    compositeDisposable.dispose()
+  override fun getMoviesByGenre(genreId: Int, page: Int): Observable<GetMovieByGenreResult> {
+    return appRepository.getMoviesByGenre(genreId.toString(), page)
   }
 }

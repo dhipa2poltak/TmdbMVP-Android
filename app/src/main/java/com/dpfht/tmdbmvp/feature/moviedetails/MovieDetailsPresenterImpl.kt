@@ -2,14 +2,19 @@ package com.dpfht.tmdbmvp.feature.moviedetails
 
 import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.Config
+import com.dpfht.tmdbmvp.data.api.CallbackWrapper
+import com.dpfht.tmdbmvp.domain.model.GetMovieDetailsResult
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsPresenter
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsView
-import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class MovieDetailsPresenterImpl(
   private var movieDetailsView: MovieDetailsView? = null,
-  private var movieDetailsModel: MovieDetailsModel? = null
+  private var movieDetailsModel: MovieDetailsModel? = null,
+  private val compositeDisposable: CompositeDisposable
 ): MovieDetailsPresenter {
 
   private var _movieId = -1
@@ -35,20 +40,38 @@ class MovieDetailsPresenterImpl(
 
   private fun getMovieDetails() {
     movieDetailsView?.showLoadingDialog()
-    movieDetailsModel?.getMovieDetails(
-      _movieId, this::onSuccess, this::onError, this::onCancel
-    )
+
+    movieDetailsModel?.let { model ->
+      val subs = model.getMovieDetails(_movieId)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeWith(object : CallbackWrapper<GetMovieDetailsResult>() {
+          override fun onSuccessCall(result: GetMovieDetailsResult) {
+            onSuccess(result.movieId, result.title, result.overview, result.posterPath)
+          }
+
+          override fun onErrorCall(message: String) {
+            onError(message)
+          }
+
+          override fun onCancelCall() {
+            onCancel()
+          }
+        })
+
+      compositeDisposable.add(subs)
+    }
   }
 
-  fun onSuccess(response: MovieDetailsResponse) {
+  fun onSuccess(pId: Int, pTitle: String, pOverview: String, pPosterPath: String) {
     imageUrl = ""
-    if (response.posterPath != null) {
-      imageUrl = Config.IMAGE_URL_BASE_PATH + response.posterPath
+    if (pPosterPath.isNotEmpty()) {
+      imageUrl = Config.IMAGE_URL_BASE_PATH + pPosterPath
     }
 
-    _movieId = response.id
-    title = response.title ?: ""
-    overview = response.overview ?: ""
+    _movieId = pId
+    title = pTitle
+    overview = pOverview
     movieDetailsView?.showMovieDetails(
       title,
       overview,
@@ -72,8 +95,10 @@ class MovieDetailsPresenterImpl(
   }
 
   override fun onDestroy() {
+    if (!compositeDisposable.isDisposed) {
+      compositeDisposable.dispose()
+    }
     this.movieDetailsView = null
-    this.movieDetailsModel?.onDestroy()
     this.movieDetailsModel = null
   }
 }

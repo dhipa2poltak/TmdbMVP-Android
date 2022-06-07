@@ -1,9 +1,8 @@
 package com.dpfht.tmdbmvp.data.model.remote
 
-import com.dpfht.tmdbmvp.data.model.remote.AuthorDetails
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.Date
 
 @Suppress("unused")
 data class Review(

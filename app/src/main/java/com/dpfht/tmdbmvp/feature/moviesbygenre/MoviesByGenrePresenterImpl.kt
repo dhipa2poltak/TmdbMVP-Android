@@ -1,20 +1,27 @@
 package com.dpfht.tmdbmvp.feature.moviesbygenre
 
 import androidx.navigation.NavDirections
+import com.dpfht.tmdbmvp.data.api.CallbackWrapper
+import com.dpfht.tmdbmvp.data.model.remote.Movie
+import com.dpfht.tmdbmvp.domain.model.GetMovieByGenreResult
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreModel
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenrePresenter
 import com.dpfht.tmdbmvp.feature.moviesbygenre.MoviesByGenreContract.MoviesByGenreView
-import com.dpfht.tmdbmvp.data.model.remote.Movie
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class MoviesByGenrePresenterImpl(
   private var moviesByGenreView: MoviesByGenreView? = null,
   private var moviesByGenreModel: MoviesByGenreModel? = null,
-  private val movies: ArrayList<Movie>
+  private val movies: ArrayList<Movie>,
+  private val compositeDisposable: CompositeDisposable
 ): MoviesByGenrePresenter {
 
   private var _genreId = -1
   private var page = 0
   private var _isLoadingData = false
+  private var isNextEmptyDataResponse = false
 
   override fun start() {
     if (_genreId != -1 && movies.isEmpty()) {
@@ -29,11 +36,31 @@ class MoviesByGenrePresenterImpl(
   }
 
   override fun getMoviesByGenre() {
+    if (isNextEmptyDataResponse) return
+
     moviesByGenreView?.showLoadingDialog()
     _isLoadingData = true
-    moviesByGenreModel?.getMoviesByGenre(
-      _genreId, page + 1, this::onSuccess, this::onError, this::onCancel
-    )
+
+    moviesByGenreModel?.let { model ->
+      val subs = model.getMoviesByGenre(_genreId, page + 1)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeWith(object : CallbackWrapper<GetMovieByGenreResult>() {
+          override fun onSuccessCall(result: GetMovieByGenreResult) {
+            onSuccess(result.movies, result.page)
+          }
+
+          override fun onErrorCall(message: String) {
+            onError(message)
+          }
+
+          override fun onCancelCall() {
+            onCancel()
+          }
+        })
+
+      compositeDisposable.add(subs)
+    }
   }
 
   fun onSuccess(movies: List<Movie>, page: Int) {
@@ -44,6 +71,8 @@ class MoviesByGenrePresenterImpl(
         this.movies.add(movie)
         moviesByGenreView?.notifyItemInserted(this.movies.size - 1)
       }
+    } else {
+      isNextEmptyDataResponse = true
     }
 
     moviesByGenreView?.hideLoadingDialog()
@@ -69,8 +98,10 @@ class MoviesByGenrePresenterImpl(
   }
 
   override fun onDestroy() {
+    if (!compositeDisposable.isDisposed) {
+      compositeDisposable.dispose()
+    }
     this.moviesByGenreView = null
-    this.moviesByGenreModel?.onDestroy()
     this.moviesByGenreModel = null
   }
 }

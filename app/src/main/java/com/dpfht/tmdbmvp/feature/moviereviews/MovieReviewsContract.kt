@@ -2,7 +2,8 @@ package com.dpfht.tmdbmvp.feature.moviereviews
 
 import com.dpfht.tmdbmvp.base.BasePresenter
 import com.dpfht.tmdbmvp.base.BaseView
-import com.dpfht.tmdbmvp.data.model.remote.Review
+import com.dpfht.tmdbmvp.domain.model.GetMovieReviewResult
+import io.reactivex.Observable
 
 interface MovieReviewsContract {
 
@@ -17,14 +18,6 @@ interface MovieReviewsContract {
   }
 
   interface MovieReviewsModel {
-    fun getMovieReviews(
-      movieId: Int,
-      page: Int,
-      onSuccess: (List<Review>, Int) -> Unit,
-      onError: (String) -> Unit,
-      onCancel: () -> Unit
-    )
-
-    fun onDestroy()
+    fun getMovieReviews(movieId: Int, page: Int): Observable<GetMovieReviewResult>
   }
 }

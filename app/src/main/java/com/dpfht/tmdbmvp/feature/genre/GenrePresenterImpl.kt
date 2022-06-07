@@ -1,15 +1,21 @@
 package com.dpfht.tmdbmvp.feature.genre
 
 import androidx.navigation.NavDirections
+import com.dpfht.tmdbmvp.data.api.CallbackWrapper
+import com.dpfht.tmdbmvp.data.model.remote.Genre
+import com.dpfht.tmdbmvp.domain.model.GetMovieGenreResult
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreModel
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenrePresenter
 import com.dpfht.tmdbmvp.feature.genre.GenreContract.GenreView
-import com.dpfht.tmdbmvp.data.model.remote.Genre
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class GenrePresenterImpl(
   private var genreView: GenreView? = null,
   private var genreModel: GenreModel? = null,
-  private val genres: ArrayList<Genre>
+  private val genres: ArrayList<Genre>,
+  private val compositeDisposable: CompositeDisposable
 ): GenrePresenter {
 
   override fun start() {
@@ -20,7 +26,27 @@ class GenrePresenterImpl(
 
   private fun getMovieGenre() {
     genreView?.showLoadingDialog()
-    genreModel?.getMovieGenre(this::onSuccess, this::onError, this::onCancel)
+
+    genreModel?.let { model ->
+      val subs = model.getMovieGenre()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeWith(object : CallbackWrapper<GetMovieGenreResult>() {
+          override fun onSuccessCall(result: GetMovieGenreResult) {
+            onSuccess(result.genres)
+          }
+
+          override fun onErrorCall(message: String) {
+            onError(message)
+          }
+
+          override fun onCancelCall() {
+            onCancel()
+          }
+        })
+
+      compositeDisposable.add(subs)
+    }
   }
 
   fun onSuccess(genres: List<Genre>) {
@@ -50,8 +76,10 @@ class GenrePresenterImpl(
   }
 
   override fun onDestroy() {
+    if (!compositeDisposable.isDisposed) {
+      compositeDisposable.dispose()
+    }
     this.genreView = null
-    this.genreModel?.onDestroy()
     this.genreModel = null
   }
 }

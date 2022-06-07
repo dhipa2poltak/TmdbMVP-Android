@@ -35,11 +35,14 @@ class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment)
 
   @Provides
   @FragmentScope
-  fun provideMovieReviewsModel(
-    appRepository: AppRepository,
-    compositeDisposable: CompositeDisposable
-  ): MovieReviewsModel {
-    return MovieReviewsModelImpl(appRepository, compositeDisposable)
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMovieReviewsModel(appRepository: AppRepository): MovieReviewsModel {
+    return MovieReviewsModelImpl(appRepository)
   }
 
   @Provides
@@ -53,20 +56,15 @@ class MovieReviewsModule(private val movieReviewsFragment: MovieReviewsFragment)
   fun provideMovieReviewsPresenter(
     movieReviewsView: MovieReviewsView,
     movieReviewsModel: MovieReviewsModel,
-    reviews: ArrayList<Review>
+    reviews: ArrayList<Review>,
+    compositeDisposable: CompositeDisposable
   ): MovieReviewsPresenter {
-    return MovieReviewsPresenterImpl(movieReviewsView, movieReviewsModel, reviews)
+    return MovieReviewsPresenterImpl(movieReviewsView, movieReviewsModel, reviews, compositeDisposable)
   }
 
   @Provides
   @FragmentScope
   fun provideMovieReviewsAdapter(reviews: ArrayList<Review>): MovieReviewsAdapter {
     return MovieReviewsAdapter(reviews)
-  }
-
-  @Provides
-  @FragmentScope
-  fun provideCompositeDisposable(): CompositeDisposable {
-    return CompositeDisposable()
   }
 }

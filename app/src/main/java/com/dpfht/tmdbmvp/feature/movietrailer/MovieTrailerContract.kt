@@ -1,7 +1,8 @@
 package com.dpfht.tmdbmvp.feature.movietrailer
 
 import com.dpfht.tmdbmvp.base.BasePresenter
-import com.dpfht.tmdbmvp.data.model.remote.Trailer
+import com.dpfht.tmdbmvp.domain.model.GetMovieTrailerResult
+import io.reactivex.Observable
 
 interface MovieTrailerContract {
 
@@ -16,13 +17,6 @@ interface MovieTrailerContract {
   }
 
   interface MovieTrailerModel {
-    fun getMovieTrailer(
-      movieId: Int,
-      onSuccess: (List<Trailer>) -> Unit,
-      onError: (String) -> Unit,
-      onCancel: () -> Unit
-    )
-
-    fun onDestroy()
+    fun getMovieTrailer(movieId: Int): Observable<GetMovieTrailerResult>
   }
 }

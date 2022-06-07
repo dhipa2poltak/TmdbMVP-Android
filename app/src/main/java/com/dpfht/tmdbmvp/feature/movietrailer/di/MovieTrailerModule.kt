@@ -23,25 +23,23 @@ class MovieTrailerModule(private val movieTrailerActivity: MovieTrailerActivity)
 
   @Provides
   @ActivityScope
-  fun provideMovieTrailerModel(
-    appRepository: AppRepository,
-    compositeDisposable: CompositeDisposable
-  ): MovieTrailerModel {
-    return MovieTrailerModelImpl(appRepository, compositeDisposable)
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
+  }
+
+  @Provides
+  @ActivityScope
+  fun provideMovieTrailerModel(appRepository: AppRepository): MovieTrailerModel {
+    return MovieTrailerModelImpl(appRepository)
   }
 
   @Provides
   @ActivityScope
   fun provideMovieTrailerPresenter(
     movieTrailerView: MovieTrailerView,
-    movieTrailerModel: MovieTrailerModel
+    movieTrailerModel: MovieTrailerModel,
+    compositeDisposable: CompositeDisposable
   ): MovieTrailerPresenter {
-    return MovieTrailerPresenterImpl(movieTrailerView, movieTrailerModel)
-  }
-
-  @Provides
-  @ActivityScope
-  fun provideCompositeDisposable(): CompositeDisposable {
-    return CompositeDisposable()
+    return MovieTrailerPresenterImpl(movieTrailerView, movieTrailerModel, compositeDisposable)
   }
 }

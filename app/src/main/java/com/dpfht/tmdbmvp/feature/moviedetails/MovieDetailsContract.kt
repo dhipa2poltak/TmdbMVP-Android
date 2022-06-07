@@ -3,7 +3,8 @@ package com.dpfht.tmdbmvp.feature.moviedetails
 import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.base.BasePresenter
 import com.dpfht.tmdbmvp.base.BaseView
-import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.domain.model.GetMovieDetailsResult
+import io.reactivex.Observable
 
 interface MovieDetailsContract {
 
@@ -18,13 +19,6 @@ interface MovieDetailsContract {
   }
 
   interface MovieDetailsModel {
-    fun getMovieDetails(
-      movieId: Int,
-      onSuccess: (MovieDetailsResponse) -> Unit,
-      onError: (String) -> Unit,
-      onCancel: () -> Unit
-    )
-
-    fun onDestroy()
+    fun getMovieDetails(movieId: Int): Observable<GetMovieDetailsResult>
   }
 }

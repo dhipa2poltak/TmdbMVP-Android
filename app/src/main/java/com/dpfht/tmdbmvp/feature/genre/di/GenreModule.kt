@@ -35,8 +35,14 @@ class GenreModule(private val genreFragment: GenreFragment) {
 
   @Provides
   @FragmentScope
-  fun provideGenreModel(appRepository: AppRepository, compositeDisposable: CompositeDisposable): GenreModel {
-    return GenreModelImpl(appRepository, compositeDisposable)
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideGenreModel(appRepository: AppRepository): GenreModel {
+    return GenreModelImpl(appRepository)
   }
 
   @Provides
@@ -50,20 +56,15 @@ class GenreModule(private val genreFragment: GenreFragment) {
   fun provideGenrePresenter(
     genreView: GenreView,
     genreModel: GenreModel,
-    genres: ArrayList<Genre>
+    genres: ArrayList<Genre>,
+    compositeDisposable: CompositeDisposable
   ): GenrePresenter {
-    return GenrePresenterImpl(genreView, genreModel, genres)
+    return GenrePresenterImpl(genreView, genreModel, genres, compositeDisposable)
   }
 
   @Provides
   @FragmentScope
   fun provideGenreAdapter(genres: ArrayList<Genre>): GenreAdapter {
     return GenreAdapter(genres)
-  }
-
-  @Provides
-  @FragmentScope
-  fun provideCompositeDisposable(): CompositeDisposable {
-    return CompositeDisposable()
   }
 }

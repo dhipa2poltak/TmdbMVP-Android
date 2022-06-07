@@ -33,25 +33,23 @@ class MovieDetailsModule(private val movieDetailsFragment: MovieDetailsFragment)
 
   @Provides
   @FragmentScope
-  fun provideMovieDetailsModel(
-    appRepository: AppRepository,
-    compositeDisposable: CompositeDisposable
-  ): MovieDetailsModel {
-    return MovieDetailsModelImpl(appRepository, compositeDisposable)
+  fun provideCompositeDisposable(): CompositeDisposable {
+    return CompositeDisposable()
+  }
+
+  @Provides
+  @FragmentScope
+  fun provideMovieDetailsModel(appRepository: AppRepository): MovieDetailsModel {
+    return MovieDetailsModelImpl(appRepository)
   }
 
   @Provides
   @FragmentScope
   fun provideMovieDetailsPresenter(
     movieDetailsView: MovieDetailsView,
-    movieDetailsModel: MovieDetailsModel
+    movieDetailsModel: MovieDetailsModel,
+    compositeDisposable: CompositeDisposable
   ): MovieDetailsPresenter {
-    return MovieDetailsPresenterImpl(movieDetailsView, movieDetailsModel)
-  }
-
-  @Provides
-  @FragmentScope
-  fun provideCompositeDisposable(): CompositeDisposable {
-    return CompositeDisposable()
+    return MovieDetailsPresenterImpl(movieDetailsView, movieDetailsModel, compositeDisposable)
   }
 }
