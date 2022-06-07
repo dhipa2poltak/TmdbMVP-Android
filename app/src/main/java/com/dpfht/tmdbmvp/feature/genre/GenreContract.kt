@@ -3,7 +3,7 @@ package com.dpfht.tmdbmvp.feature.genre
 import androidx.navigation.NavDirections
 import com.dpfht.tmdbmvp.base.BasePresenter
 import com.dpfht.tmdbmvp.base.BaseView
-import com.dpfht.tmdbmvp.data.model.Genre
+import com.dpfht.tmdbmvp.data.model.remote.Genre
 
 interface GenreContract {
 

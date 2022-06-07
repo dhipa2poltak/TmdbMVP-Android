@@ -1,7 +1,7 @@
 package com.dpfht.tmdbmvp.feature.moviedetails
 
 import com.dpfht.tmdbmvp.data.api.CallbackWrapper
-import com.dpfht.tmdbmvp.data.model.response.MovieDetailsResponse
+import com.dpfht.tmdbmvp.data.model.remote.response.MovieDetailsResponse
 import com.dpfht.tmdbmvp.data.repository.AppRepository
 import com.dpfht.tmdbmvp.feature.moviedetails.MovieDetailsContract.MovieDetailsModel
 

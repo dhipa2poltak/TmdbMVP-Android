@@ -1,7 +1,7 @@
 package com.dpfht.tmdbmvp.feature.movietrailer
 
 import com.dpfht.tmdbmvp.base.BasePresenter
-import com.dpfht.tmdbmvp.data.model.Trailer
+import com.dpfht.tmdbmvp.data.model.remote.Trailer
 
 interface MovieTrailerContract {
 
