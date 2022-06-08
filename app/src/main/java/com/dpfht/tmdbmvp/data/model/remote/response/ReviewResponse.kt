@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.data.model.remote.response
 
 import com.dpfht.tmdbmvp.data.model.remote.Review
+import com.dpfht.tmdbmvp.domain.model.GetMovieReviewResult
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -17,4 +18,9 @@ data class ReviewResponse(
     @SerializedName("total_results")
     @Expose
     val totalResults: Int = 0
+)
+
+fun ReviewResponse.toDomain() = GetMovieReviewResult(
+    this.results ?: arrayListOf(),
+    this.page
 )

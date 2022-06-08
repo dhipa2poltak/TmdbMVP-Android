@@ -4,6 +4,7 @@ import com.dpfht.tmdbmvp.data.model.remote.Genre
 import com.dpfht.tmdbmvp.data.model.remote.ProductionCompany
 import com.dpfht.tmdbmvp.data.model.remote.ProductionCountry
 import com.dpfht.tmdbmvp.data.model.remote.SpokenLanguage
+import com.dpfht.tmdbmvp.domain.model.GetMovieDetailsResult
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -75,4 +76,8 @@ data class MovieDetailsResponse(
     @SerializedName("vote_count")
     @Expose
     val voteCount: Int = 0
+)
+
+fun MovieDetailsResponse.toDomain() = GetMovieDetailsResult(
+    this.id, this.title ?: "", this.overview ?: "", this.posterPath ?: ""
 )

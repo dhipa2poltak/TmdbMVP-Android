@@ -1,6 +1,7 @@
 package com.dpfht.tmdbmvp.data.model.remote.response
 
 import com.dpfht.tmdbmvp.data.model.remote.Movie
+import com.dpfht.tmdbmvp.domain.model.GetMovieByGenreResult
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -16,4 +17,9 @@ data class DiscoverMovieByGenreResponse(
     @SerializedName("total_results")
     @Expose
     val totalResults: Int = 0
+)
+
+fun DiscoverMovieByGenreResponse.toDomain() = GetMovieByGenreResult(
+    this.results ?: arrayListOf(),
+    this.page
 )
